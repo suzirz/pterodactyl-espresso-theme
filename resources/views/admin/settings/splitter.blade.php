@@ -124,9 +124,30 @@
             outline: none;
             box-shadow: none;
         }
+        .bn-select {
+            -webkit-appearance: none !important;
+            -moz-appearance: none !important;
+            appearance: none !important;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23BFA89E' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
+            background-repeat: no-repeat !important;
+            background-position: right 14px center !important;
+            background-size: 14px 14px !important;
+            padding-right: 40px !important;
+            cursor: pointer !important;
+        }
+        .bn-select option {
+            background-color: #1c1917 !important;
+            color: var(--bn-mint) !important;
+            padding: 10px 14px !important;
+        }
+        .bn-select optgroup {
+            background-color: #141211 !important;
+            color: var(--bn-khaki) !important;
+            font-weight: 700;
+        }
         .bn-input:focus, .bn-select:focus {
             border-color: var(--bn-khaki) !important;
-            box-shadow: 0 0 0 2px rgba(191, 168, 158, 0.2) !important;
+            box-shadow: 0 0 0 3px rgba(191, 168, 158, 0.2) !important;
         }
         .bn-input-mono {
             font-family: 'JetBrains Mono', monospace !important;
@@ -238,7 +259,7 @@
             <i class="fa fa-sliders" style="color: var(--bn-khaki);"></i> Server Splitter Settings
         </h1>
         <p style="font-family: 'Outfit'; font-size: 13.5px; color: var(--bn-taupe); margin: 0;">
-            Kelola batasan resource induk, perilaku modifikasi server, dan aturan eggs splitter.
+            Manage parent host resource limits, server modification behaviors, and egg splitting rules.
         </p>
     </div>
 @endsection
@@ -252,7 +273,7 @@
             <div class="bn-card">
                 <div class="bn-card-header">
                     <h3 class="bn-card-title">
-                        <i class="fa fa-info-circle" style="color: var(--bn-blue);"></i> Ekstensi Splitter
+                        <i class="fa fa-info-circle" style="color: var(--bn-blue);"></i> Splitter Extension
                     </h3>
                 </div>
                 <div class="bn-card-body text-center">
@@ -266,10 +287,10 @@
                     
                     <div class="text-left" style="font-size: 12.5px; color: var(--bn-mint);">
                         <div style="font-family: 'Outfit'; font-weight: 600; color: var(--bn-khaki); margin-bottom: 8px; text-transform: uppercase; font-size: 11px; letter-spacing: 0.05em;">
-                            Fitur Aktif:
+                            Active Features:
                         </div>
                         <ul style="padding-left: 18px; margin: 0; line-height: 1.6; color: var(--bn-taupe);">
-                            <li><span style="color: var(--bn-mint);">Safety Locks</span> saat resize server</li>
+                            <li><span style="color: var(--bn-mint);">Safety Locks</span> during server resize</li>
                             <li><span style="color: var(--bn-mint);">Advanced Egg Rules</span></li>
                             <li><span style="color: var(--bn-mint);">Disk Limits Toggle</span></li>
                             <li><span style="color: var(--bn-mint);">Multi-tenant isolation</span></li>
@@ -306,29 +327,29 @@
                 <div class="bn-card">
                     <div class="bn-card-header">
                         <h3 class="bn-card-title">
-                            <i class="fa fa-sliders" style="color: var(--bn-khaki);"></i> Konfigurasi Batasan Resource Induk
+                            <i class="fa fa-sliders" style="color: var(--bn-khaki);"></i> Parent Resource Safety Thresholds
                         </h3>
                     </div>
                     <div class="bn-card-body">
                         <!-- Reserved Resources on Master -->
                         <div class="bn-section-heading">
-                            <i class="fa fa-shield"></i> Kuota Minimum yang Wajib Tersisa di Server Induk (Master)
+                            <i class="fa fa-shield"></i> Minimum Reserved Resources on Parent Server (Master)
                         </div>
                         <div class="row">
                             <div class="col-md-4 bn-form-group">
                                 <label class="bn-label">Min CPU (%)</label>
                                 <input type="number" required class="bn-input bn-input-mono" name="bytenodes::splitter::min_cpu" value="{{ old('bytenodes::splitter::min_cpu', $min_cpu) }}" min="0">
-                                <div class="bn-label-desc">Sisa CPU minimal di master.</div>
+                                <div class="bn-label-desc">Minimum reserved CPU percentage remaining on master.</div>
                             </div>
                             <div class="col-md-4 bn-form-group">
                                 <label class="bn-label">Min Memory (MiB)</label>
                                 <input type="number" required class="bn-input bn-input-mono" name="bytenodes::splitter::min_mem" value="{{ old('bytenodes::splitter::min_mem', $min_mem) }}" min="0">
-                                <div class="bn-label-desc">Sisa RAM minimal di master.</div>
+                                <div class="bn-label-desc">Minimum reserved memory remaining on master.</div>
                             </div>
                             <div class="col-md-4 bn-form-group">
                                 <label class="bn-label">Min Disk (MiB)</label>
                                 <input type="number" required class="bn-input bn-input-mono" name="bytenodes::splitter::min_disk" value="{{ old('bytenodes::splitter::min_disk', $min_disk) }}" min="0">
-                                <div class="bn-label-desc">Sisa Disk minimal di master.</div>
+                                <div class="bn-label-desc">Minimum reserved disk space remaining on master.</div>
                             </div>
                         </div>
 
@@ -349,43 +370,43 @@
 
                         <!-- Advanced Settings -->
                         <div class="bn-section-heading" style="margin-top: 14px;">
-                            <i class="fa fa-cogs"></i> Perilaku Lanjutan (Advanced Behaviours)
+                            <i class="fa fa-cogs"></i> Advanced Engine Behaviors
                         </div>
                         
                         <div class="row">
                             <div class="col-md-6 bn-form-group">
-                                <label class="bn-label">Hitung Batasan Disk (Include Disk Limits)</label>
+                                <label class="bn-label">Enforce Disk Limits (Include Disk Limits)</label>
                                 <select name="bytenodes::splitter::include_disk" class="bn-select">
-                                    <option value="1" {{ $include_disk ? 'selected' : '' }}>Ya (Kurangi Kuota Disk Induk)</option>
-                                    <option value="0" {{ !$include_disk ? 'selected' : '' }}>Tidak (Disk Bebas/Independen)</option>
+                                    <option value="1" {{ $include_disk ? 'selected' : '' }}>Yes (Deduct from Parent Disk Quota)</option>
+                                    <option value="0" {{ !$include_disk ? 'selected' : '' }}>No (Independent / Unrestricted Disk)</option>
                                 </select>
-                                <div class="bn-label-desc">Jika Ya, alokasi disk child server akan mengurangi kuota master server.</div>
+                                <div class="bn-label-desc">When enabled, child server storage is deducted from parent master server disk capacity.</div>
                             </div>
 
                             <div class="col-md-6 bn-form-group">
-                                <label class="bn-label">Tampilkan Kuota Reserved di Progress Bar Klien</label>
+                                <label class="bn-label">Display Reserved Threshold in Client UI</label>
                                 <select name="bytenodes::splitter::display_reserved" class="bn-select">
-                                    <option value="1" {{ $display_reserved ? 'selected' : '' }}>Ya (Tampilkan)</option>
-                                    <option value="0" {{ !$display_reserved ? 'selected' : '' }}>Tidak (Sembunyikan)</option>
+                                    <option value="1" {{ $display_reserved ? 'selected' : '' }}>Yes (Display in Bar)</option>
+                                    <option value="0" {{ !$display_reserved ? 'selected' : '' }}>No (Hide)</option>
                                 </select>
-                                <div class="bn-label-desc">Menampilkan batas reserved server master di bar alokasi antarmuka klien.</div>
+                                <div class="bn-label-desc">Displays parent master reserved limit indicators on client allocation bars.</div>
                             </div>
                         </div>
 
                         <div class="bn-form-group" style="margin-bottom: 0;">
-                            <label class="bn-label">Aksi Server Induk saat Split / Resize</label>
+                            <label class="bn-label">Parent Server Action during Split / Resize</label>
                             <select name="bytenodes::splitter::server_action" class="bn-select">
                                 <option value="restart" {{ $server_action == 'restart' ? 'selected' : '' }}>Restart Parent Server</option>
                                 <option value="stop" {{ $server_action == 'stop' ? 'selected' : '' }}>Stop Parent Server</option>
                                 <option value="kill" {{ $server_action == 'kill' ? 'selected' : '' }}>Kill Parent Server</option>
-                                <option value="none" {{ $server_action == 'none' ? 'selected' : '' }}>None (Jangan Ubah State Daya)</option>
+                                <option value="none" {{ $server_action == 'none' ? 'selected' : '' }}>None (Do not change power state)</option>
                             </select>
-                            <div class="bn-label-desc">Aksi power yang dijalankan pada server induk saat resource diperbarui.</div>
+                            <div class="bn-label-desc">Power action executed on parent server when resources are modified.</div>
                         </div>
                     </div>
                     <div class="bn-card-footer">
                         <button type="submit" class="bn-btn-primary">
-                            <i class="fa fa-save"></i> Simpan Konfigurasi
+                            <i class="fa fa-save"></i> Save Configuration
                         </button>
                     </div>
                 </div>
@@ -399,7 +420,7 @@
             <div class="bn-card">
                 <div class="bn-card-header">
                     <h3 class="bn-card-title">
-                        <i class="fa fa-code-fork" style="color: var(--bn-khaki);"></i> Aturan Pemecahan Egg (Egg Rules)
+                        <i class="fa fa-code-fork" style="color: var(--bn-khaki);"></i> Egg Splitting Rules
                     </h3>
                 </div>
                 <div class="table-responsive" style="overflow-x: auto;">
@@ -408,14 +429,14 @@
                             <tr>
                                 <th>Parent Egg</th>
                                 <th>Allowed Child Eggs</th>
-                                <th style="text-align: right;">Aksi</th>
+                                <th style="text-align: right;">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             @if(empty($rules))
                                 <tr>
                                     <td colspan="3" style="text-align: center; color: var(--bn-taupe); padding: 32px 16px;">
-                                        Belum ada aturan egg yang dikonfigurasi. Semua egg dapat memilih sembarang child egg.
+                                        No egg rules configured yet. All eggs are allowed to select any child egg.
                                     </td>
                                 </tr>
                             @else
@@ -450,8 +471,8 @@
                                             <form action="{{ route('admin.settings.splitter.rules.delete', $parentEggId) }}" method="POST" style="display:inline-block;">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="bn-action-btn" style="color: var(--bn-danger); border-color: rgba(239, 68, 68, 0.3);" onclick="return confirm('Hapus aturan egg ini?')">
-                                                    <i class="fa fa-trash"></i> Hapus
+                                                <button type="submit" class="bn-action-btn" style="color: var(--bn-danger); border-color: rgba(239, 68, 68, 0.3);" onclick="return confirm('Delete this egg rule?')">
+                                                    <i class="fa fa-trash"></i> Delete
                                                 </button>
                                             </form>
                                         </td>
@@ -471,7 +492,7 @@
             <div class="bn-card">
                 <div class="bn-card-header">
                     <h3 class="bn-card-title">
-                        <i class="fa fa-plus-circle" style="color: var(--bn-green);"></i> Tambah Aturan Egg Baru
+                        <i class="fa fa-plus-circle" style="color: var(--bn-green);"></i> Add New Egg Rule
                     </h3>
                 </div>
                 <form action="{{ route('admin.settings.splitter.rules') }}" method="POST">
@@ -479,9 +500,9 @@
                     <div class="bn-card-body">
                         <div class="row">
                             <div class="col-md-4 bn-form-group">
-                                <label class="bn-label">Pilih Parent Egg</label>
+                                <label class="bn-label">Select Parent Egg</label>
                                 <select name="parent_egg_id" class="bn-select" required>
-                                    <option value="">-- Pilih Parent Egg --</option>
+                                    <option value="">-- Select Parent Egg --</option>
                                     @foreach($nests as $nest)
                                         <optgroup label="Nest: {{ $nest->name }}">
                                             @foreach($eggs->where('nest_id', $nest->id) as $egg)
@@ -490,10 +511,10 @@
                                         </optgroup>
                                     @endforeach
                                 </select>
-                                <div class="bn-label-desc">Egg yang memicu aturan pemecahan ini.</div>
+                                <div class="bn-label-desc">Egg template that triggers this splitting rule.</div>
                             </div>
                             <div class="col-md-8 bn-form-group">
-                                <label class="bn-label">Pilih Allowed Child Eggs</label>
+                                <label class="bn-label">Select Allowed Child Eggs</label>
                                 <select name="allowed_egg_ids[]" class="bn-select" multiple style="height: 120px;" required>
                                     @foreach($nests as $nest)
                                         <optgroup label="Nest: {{ $nest->name }}">
@@ -503,13 +524,13 @@
                                         </optgroup>
                                     @endforeach
                                 </select>
-                                <div class="bn-label-desc">Tekan tombol Ctrl/Cmd untuk memilih beberapa egg sekaligus.</div>
+                                <div class="bn-label-desc">Hold Ctrl/Cmd to select multiple child eggs.</div>
                             </div>
                         </div>
                     </div>
                     <div class="bn-card-footer">
                         <button type="submit" class="bn-btn-primary">
-                            <i class="fa fa-plus"></i> Tambah Aturan Egg
+                            <i class="fa fa-plus"></i> Add Egg Rule
                         </button>
                     </div>
                 </form>

@@ -150,9 +150,30 @@
             outline: none;
             box-shadow: none;
         }
+        .bn-select {
+            -webkit-appearance: none !important;
+            -moz-appearance: none !important;
+            appearance: none !important;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23BFA89E' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
+            background-repeat: no-repeat !important;
+            background-position: right 14px center !important;
+            background-size: 14px 14px !important;
+            padding-right: 40px !important;
+            cursor: pointer !important;
+        }
+        .bn-select option {
+            background-color: #1c1917 !important;
+            color: var(--bn-mint) !important;
+            padding: 10px 14px !important;
+        }
+        .bn-select optgroup {
+            background-color: #141211 !important;
+            color: var(--bn-khaki) !important;
+            font-weight: 700;
+        }
         .bn-input:focus, .bn-select:focus, .bn-textarea:focus {
             border-color: var(--bn-khaki) !important;
-            box-shadow: 0 0 0 2px rgba(191, 168, 158, 0.2) !important;
+            box-shadow: 0 0 0 3px rgba(191, 168, 158, 0.2) !important;
         }
         .bn-input-mono {
             font-family: 'JetBrains Mono', monospace !important;
@@ -413,7 +434,7 @@
             <i class="fa fa-code-fork" style="color: var(--bn-khaki);"></i> Node Splitter
         </h1>
         <p class="bn-page-subtitle">
-            Partisi node induk menjadi Virtual Private Sub-Nodes dengan FQDN white-label dan alokasi resource terisolasi.
+            Partition parent physical nodes into Virtual Private Sub-Nodes with white-label FQDNs and isolated resource quotas.
         </p>
     </div>
 @endsection
@@ -426,17 +447,17 @@
                 <div style="display: flex; justify-content: space-between; align-items: flex-start;">
                     <div>
                         <h4 style="margin: 0 0 6px 0; font-family: 'Outfit'; font-weight: 600; color: #60a5fa;">
-                            <i class="fa fa-shield"></i> Langkah Tambahan: Aktivasi Sertifikat SSL Domain Baru ({{ session('ssl_helper_fqdn') }})
+                            <i class="fa fa-shield"></i> Additional Step: Activate SSL Certificate for New Domain ({{ session('ssl_helper_fqdn') }})
                         </h4>
                         <p style="margin: 0; font-size: 13px; color: #cbd5e1;">
-                            Karena FQDN sub-node ini berbeda dari domain induk, jalankan perintah Certbot berikut di mesin fisik node induk agar Wings dapat mengenali SSL secara instan:
+                            Because this sub-node FQDN differs from the parent host domain, execute the following Certbot command on the parent physical node so Wings recognizes SSL immediately:
                         </p>
                     </div>
                 </div>
                 <div class="bn-code-box">
                     <span id="sslCmdText">{{ session('ssl_helper_cmd') }}</span>
                     <button type="button" class="bn-action-btn" onclick="copySslCmd()" style="margin-left: 12px; flex-shrink: 0;">
-                        <i class="fa fa-copy"></i> Salin
+                        <i class="fa fa-copy"></i> Copy
                     </button>
                 </div>
             </div>
@@ -450,7 +471,7 @@
         <div class="bn-card">
             <div class="bn-card-header">
                 <h3 class="bn-card-title">
-                    <i class="fa fa-cubes" style="color: var(--bn-khaki);"></i> Buat Private Sub-Node Baru
+                    <i class="fa fa-cubes" style="color: var(--bn-khaki);"></i> Create New Private Sub-Node
                 </h3>
                 <span class="bn-badge bn-badge-khaki">
                     <i class="fa fa-server"></i> ByteNodes Partition Engine
@@ -463,7 +484,7 @@
                     <!-- 1. PARENT NODE SELECTION -->
                     <div class="bn-form-group">
                         <label for="parent_node_id" class="bn-label">
-                            <i class="fa fa-server" style="color: var(--bn-taupe); margin-right: 4px;"></i> Pilih Node Induk (Physical Host)
+                            <i class="fa fa-server" style="color: var(--bn-taupe); margin-right: 4px;"></i> Select Parent Node (Physical Host)
                         </label>
                         <select id="parent_node_id" name="parent_node_id" class="bn-select" onchange="updateParentVisual()">
                             @foreach ($parentNodes as $p)
@@ -479,31 +500,31 @@
                                 </option>
                             @endforeach
                         </select>
-                        <div class="bn-label-desc">Mesin fisik dan daemon Wings dari node induk ini yang akan meng-host seluruh server dari sub-node baru.</div>
+                        <div class="bn-label-desc">The physical machine and Wings daemon of this parent node will host all servers created under the new sub-node.</div>
                     </div>
 
                     <!-- CAPACITY VISUALIZER BENTO -->
                     <div class="bn-capacity-grid" id="capacityVisualCard">
                         <div class="bn-capacity-stat">
                             <div class="bn-capacity-val" style="color: var(--bn-blue);" id="dispTotalMem">558 GB</div>
-                            <div class="bn-capacity-label">Total RAM Induk</div>
+                            <div class="bn-capacity-label">Parent Host RAM</div>
                         </div>
                         <div class="bn-capacity-stat">
                             <div class="bn-capacity-val" style="color: var(--bn-green);" id="dispTotalDisk">2560 GB</div>
-                            <div class="bn-capacity-label">Total Disk Induk</div>
+                            <div class="bn-capacity-label">Parent Host Disk</div>
                         </div>
                         <div class="bn-capacity-stat">
                             <div class="bn-capacity-val" style="color: var(--bn-amber);" id="dispServerCount">12</div>
-                            <div class="bn-capacity-label">Server Aktif</div>
+                            <div class="bn-capacity-label">Active Servers</div>
                         </div>
                     </div>
 
                     <!-- 2. NAME & LOCATION -->
                     <div class="row">
                         <div class="col-sm-6 bn-form-group">
-                            <label for="name" class="bn-label">Nama Private Node <span style="color: #ef4444;">*</span></label>
-                            <input type="text" autocomplete="off" name="name" id="name" class="bn-input" value="{{ old('name') }}" placeholder="Contoh: Private Node - Velmora" required>
-                            <div class="bn-label-desc">Nama bebas dan bisa di-rename kapan saja.</div>
+                            <label for="name" class="bn-label">Private Node Name <span style="color: #ef4444;">*</span></label>
+                            <input type="text" autocomplete="off" name="name" id="name" class="bn-input" value="{{ old('name') }}" placeholder="e.g. Private Node - Velmora" required>
+                            <div class="bn-label-desc">Arbitrary display name, can be renamed anytime.</div>
                         </div>
 
                         <div class="col-sm-6 bn-form-group">
@@ -513,30 +534,30 @@
                                     <option value="{{ $loc->id }}" {{ $defaultParent && $defaultParent->location_id == $loc->id ? 'selected' : '' }}>{{ $loc->short }} ({{ $loc->long }})</option>
                                 @endforeach
                             </select>
-                            <div class="bn-label-desc">Lokasi grup server di panel.</div>
+                            <div class="bn-label-desc">Panel server location group.</div>
                         </div>
                     </div>
 
                     <!-- 3. FQDN & SCHEME -->
                     <div class="row">
                         <div class="col-sm-8 bn-form-group">
-                            <label for="fqdn" class="bn-label">FQDN / Domain Sub-Node <span style="color: #ef4444;">*</span></label>
+                            <label for="fqdn" class="bn-label">Sub-Node FQDN / Domain <span style="color: #ef4444;">*</span></label>
                             <div style="display: flex; gap: 8px;">
                                 <input type="text" autocomplete="off" name="fqdn" id="fqdn" class="bn-input bn-input-mono" value="{{ old('fqdn') }}" placeholder="node-velmora.bytenodes.id" required>
-                                <button type="button" class="bn-action-btn" onclick="useParentFqdn()" style="flex-shrink: 0;" title="Gunakan domain induk">
-                                    <i class="fa fa-clone"></i> Induk
+                                <button type="button" class="bn-action-btn" onclick="useParentFqdn()" style="flex-shrink: 0;" title="Use parent domain">
+                                    <i class="fa fa-clone"></i> Parent FQDN
                                 </button>
                             </div>
-                            <div class="bn-label-desc">Bisa menggunakan domain sendiri untuk White-Label.</div>
+                            <div class="bn-label-desc">You can use your own custom domain for white-labeling.</div>
                         </div>
 
                         <div class="col-sm-4 bn-form-group">
-                            <label for="scheme" class="bn-label">Scheme SSL <span style="color: #ef4444;">*</span></label>
+                            <label for="scheme" class="bn-label">SSL Scheme <span style="color: #ef4444;">*</span></label>
                             <select name="scheme" id="scheme" class="bn-select" required>
-                                <option value="https" selected>HTTPS (SSL Aktif)</option>
-                                <option value="http">HTTP (Plain)</option>
+                                <option value="https" selected>HTTPS (SSL Enabled)</option>
+                                <option value="http">HTTP (Plain / Insecure)</option>
                             </select>
-                            <div class="bn-label-desc">Protokol keamanan daemon.</div>
+                            <div class="bn-label-desc">Daemon security protocol.</div>
                         </div>
                     </div>
 
@@ -555,7 +576,7 @@
                     <!-- 5. RESOURCE QUOTAS -->
                     <div class="row">
                         <div class="col-sm-6 bn-form-group">
-                            <label for="memory" class="bn-label">Alokasi RAM (MB) <span style="color: #ef4444;">*</span></label>
+                            <label for="memory" class="bn-label">RAM Allocation (MB) <span style="color: #ef4444;">*</span></label>
                             <input type="number" name="memory" id="memory" class="bn-input bn-input-mono" value="{{ old('memory', 65536) }}" required>
                             <div class="bn-preset-pills">
                                 <button type="button" class="bn-preset-btn" onclick="setRam(16384)">16 GB</button>
@@ -566,7 +587,7 @@
                         </div>
 
                         <div class="col-sm-6 bn-form-group">
-                            <label for="disk" class="bn-label">Alokasi NVMe Disk (MB) <span style="color: #ef4444;">*</span></label>
+                            <label for="disk" class="bn-label">NVMe Disk Allocation (MB) <span style="color: #ef4444;">*</span></label>
                             <input type="number" name="disk" id="disk" class="bn-input bn-input-mono" value="{{ old('disk', 250000) }}" required>
                             <div class="bn-preset-pills">
                                 <button type="button" class="bn-preset-btn" onclick="setDisk(100000)">100 GB</button>
@@ -580,33 +601,33 @@
                     <!-- 6. PORT POOL GENERATOR -->
                     <div class="bn-port-dock">
                         <label class="bn-label" style="margin-bottom: 8px;">
-                            <i class="fa fa-plug" style="color: var(--bn-khaki); margin-right: 5px;"></i> Generator Alokasi Port Otomatis
+                            <i class="fa fa-plug" style="color: var(--bn-khaki); margin-right: 5px;"></i> Automatic Port Pool Generator
                         </label>
                         <div class="row">
                             <div class="col-sm-6">
-                                <label class="bn-label-desc" style="margin-bottom: 4px;">Port Awal (Starting Port)</label>
+                                <label class="bn-label-desc" style="margin-bottom: 4px;">Starting Port</label>
                                 <input type="number" name="start_port" id="start_port" class="bn-input bn-input-mono" value="19200" placeholder="19200" oninput="updatePortPreview()">
                             </div>
                             <div class="col-sm-6">
-                                <label class="bn-label-desc" style="margin-bottom: 4px;">Jumlah Port</label>
+                                <label class="bn-label-desc" style="margin-bottom: 4px;">Port Count</label>
                                 <input type="number" name="port_count" id="port_count" class="bn-input bn-input-mono" value="10" placeholder="10" oninput="updatePortPreview()">
                             </div>
                         </div>
                         <div id="portPreviewText" class="bn-port-preview bn-port-preview-active">
-                            <i class="fa fa-check-circle"></i> Alokasi yang akan dibuat: <strong>19200 &rarr; 19209</strong> (10 Port)
+                            <i class="fa fa-check-circle"></i> Allocations to generate: <strong>19200 &rarr; 19209</strong> (10 Ports)
                         </div>
                     </div>
 
                     <!-- 7. DESCRIPTION -->
                     <div class="bn-form-group" style="margin-bottom: 0;">
-                        <label for="description" class="bn-label">Deskripsi / Catatan Admin</label>
-                        <textarea name="description" id="description" class="bn-textarea" rows="2" placeholder="Contoh: Private node klien A, paket 64GB"></textarea>
+                        <label for="description" class="bn-label">Description / Admin Notes</label>
+                        <textarea name="description" id="description" class="bn-textarea" rows="2" placeholder="e.g. Client A Private Node, 64GB Tier"></textarea>
                     </div>
                 </div>
 
                 <div class="bn-card-footer">
                     <button type="submit" class="bn-btn-primary">
-                        <i class="fa fa-bolt"></i> Buat & Hubungkan Private Sub-Node
+                        <i class="fa fa-bolt"></i> Create & Attach Private Sub-Node
                     </button>
                 </div>
             </form>
@@ -619,7 +640,7 @@
         <div class="bn-card">
             <div class="bn-card-header">
                 <h3 class="bn-card-title">
-                    <i class="fa fa-cubes" style="color: var(--bn-green);"></i> Virtual Sub-Nodes Aktif
+                    <i class="fa fa-cubes" style="color: var(--bn-green);"></i> Active Virtual Sub-Nodes
                 </h3>
                 <span class="bn-badge bn-badge-green">
                     {{ $subNodes->count() }} Sub-Nodes
@@ -630,18 +651,18 @@
                 @if ($subNodes->count() === 0)
                     <div style="text-align: center; padding: 48px 20px; color: var(--bn-taupe);">
                         <i class="fa fa-sitemap" style="font-size: 36px; opacity: 0.35; margin-bottom: 12px; display: block;"></i>
-                        <p style="font-size: 14px; margin: 0 0 6px 0; color: var(--bn-mint);">Belum ada Virtual Sub-Node</p>
-                        <small style="font-size: 12px; color: var(--bn-taupe);">Gunakan form di samping untuk memecah kuota node induk menjadi private node pertama!</small>
+                        <p style="font-size: 14px; margin: 0 0 6px 0; color: var(--bn-mint);">No Virtual Sub-Nodes Found</p>
+                        <small style="font-size: 12px; color: var(--bn-taupe);">Use the form on the left to partition parent node resources into your first private sub-node!</small>
                     </div>
                 @else
                     <table class="bn-table">
                         <thead>
                             <tr>
                                 <th>Sub-Node</th>
-                                <th>Induk</th>
+                                <th>Parent Node</th>
                                 <th>RAM / Disk</th>
                                 <th>Ports</th>
-                                <th style="text-align: right;">Aksi</th>
+                                <th style="text-align: right;">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -661,7 +682,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <span class="bn-badge bn-badge-khaki">{{ $sub->parent_node->name ?? 'Induk' }}</span>
+                                        <span class="bn-badge bn-badge-khaki">{{ $sub->parent_node->name ?? 'Parent' }}</span>
                                     </td>
                                     <td>
                                         <span class="bn-badge bn-badge-blue" style="margin-right: 4px;">{{ round($sub->memory / 1024, 0) }}G</span>
@@ -671,10 +692,10 @@
                                         <span class="bn-badge bn-badge-amber">{{ $sub->allocations->count() }}</span>
                                     </td>
                                     <td style="text-align: right; white-space: nowrap;">
-                                        <button type="button" class="bn-action-btn" onclick="openRenameModal({{ $sub->id }}, '{{ addslashes($sub->name) }}')" title="Rename Node">
+                                        <button type="button" class="bn-action-btn" onclick="openRenameModal({{ $sub->id }}, '{{ addslashes($sub->name) }}')" title="Rename Sub-Node">
                                             <i class="fa fa-pencil"></i>
                                         </button>
-                                        <a href="{{ route('admin.nodes.view', $sub->id) }}" class="bn-action-btn" title="Detail Node">
+                                        <a href="{{ route('admin.nodes.view', $sub->id) }}" class="bn-action-btn" title="Node Settings">
                                             <i class="fa fa-cog"></i>
                                         </a>
                                     </td>
@@ -690,23 +711,23 @@
         <div class="bn-card">
             <div class="bn-card-header">
                 <h3 class="bn-card-title">
-                    <i class="fa fa-lightbulb-o" style="color: var(--bn-khaki);"></i> Panduan White-Label Private Node
+                    <i class="fa fa-lightbulb-o" style="color: var(--bn-khaki);"></i> White-Label Private Node Guide
                 </h3>
             </div>
             <div class="bn-card-body" style="font-size: 13.5px; color: var(--bn-taupe);">
                 <p style="margin-top: 0; line-height: 1.6; color: var(--bn-mint);">
-                    <strong style="color: var(--bn-khaki);">Apa itu Virtual Sub-Node?</strong><br>
-                    Sub-node adalah partisi resmi di panel dengan nama, domain kustom, dan kuota terisolasi. Seluruh proses server tetap dijalankan oleh mesin fisik induk secara transparan dan berkinerja tinggi.
+                    <strong style="color: var(--bn-khaki);">What is a Virtual Sub-Node?</strong><br>
+                    A sub-node is a formal panel partition featuring its own name, custom domain, and isolated quota. All server workloads remain transparently executed by the high-performance parent host.
                 </p>
 
                 <h5 style="font-family: 'Outfit'; font-weight: 600; color: var(--bn-mint); margin: 16px 0 10px 0; text-transform: uppercase; font-size: 11.5px; letter-spacing: 0.05em;">
-                    Kelebihan untuk Bisnis Hosting:
+                    Hosting Business Advantages:
                 </h5>
                 <ul class="bn-guide-list">
-                    <li>Pembeli melihat brand & FQDN eksklusif mereka sendiri di panel.</li>
-                    <li>Akses SFTP langsung menggunakan FQDN domain kustom pembeli.</li>
-                    <li>Sangat aman: Klien tidak memiliki akses root/SSH ke mesin fisik induk.</li>
-                    <li>Pembeli dapat memecah servernya sendiri menggunakan modul <strong>Server Splitter</strong>.</li>
+                    <li>Clients see their own exclusive branding & FQDN inside the panel.</li>
+                    <li>Direct SFTP connections using the client's custom domain FQDN.</li>
+                    <li>Zero host risk: Clients have no root or SSH access to the underlying physical node.</li>
+                    <li>Clients can partition and reallocate their servers via the <strong>Server Splitter</strong> module.</li>
                 </ul>
             </div>
         </div>
@@ -727,14 +748,14 @@
                 </div>
                 <div class="modal-body">
                     <div class="bn-form-group" style="margin-bottom: 0;">
-                        <label for="rename_name" class="bn-label">Nama Node Baru</label>
+                        <label for="rename_name" class="bn-label">New Sub-Node Name</label>
                         <input type="text" name="name" id="rename_name" class="bn-input" required autocomplete="off">
                     </div>
                 </div>
                 <div class="modal-footer" style="display: flex; justify-content: flex-end; gap: 8px;">
-                    <button type="button" class="bn-action-btn" data-dismiss="modal">Batal</button>
+                    <button type="button" class="bn-action-btn" data-dismiss="modal">Cancel</button>
                     <button type="submit" class="bn-action-btn" style="background: var(--bn-khaki); color: #141211; font-weight: 600; border-color: var(--bn-khaki);">
-                        <i class="fa fa-save"></i> Simpan
+                        <i class="fa fa-save"></i> Save Changes
                     </button>
                 </div>
             </div>
@@ -796,10 +817,10 @@
 
             if (start > 0 && count > 0) {
                 var end = start + count - 1;
-                el.innerHTML = '<i class="fa fa-check-circle"></i> Alokasi yang akan dibuat: <strong>' + start + ' &rarr; ' + end + '</strong> (' + count + ' Port)';
+                el.innerHTML = '<i class="fa fa-check-circle"></i> Allocations to generate: <strong>' + start + ' &rarr; ' + end + '</strong> (' + count + ' Ports)';
                 el.className = 'bn-port-preview bn-port-preview-active';
             } else {
-                el.innerHTML = '<i class="fa fa-info-circle"></i> Tidak ada port yang akan otomatis dibuat.';
+                el.innerHTML = '<i class="fa fa-info-circle"></i> No ports will be automatically generated.';
                 el.className = 'bn-port-preview bn-port-preview-empty';
             }
         }
@@ -817,7 +838,7 @@
             if (!el) return;
             var text = el.innerText;
             navigator.clipboard.writeText(text).then(function() {
-                alert('Perintah Certbot berhasil disalin ke clipboard!');
+                alert('Certbot command copied to clipboard!');
             });
         }
 

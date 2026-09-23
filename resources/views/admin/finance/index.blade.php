@@ -259,14 +259,30 @@
             border-radius: 8px;
             font-family: 'Outfit', sans-serif;
             font-size: 12.5px;
-            height: 34px;
+            height: 36px;
             padding: 0 12px;
             outline: none;
             transition: all 0.15s ease;
         }
+        .fn-control-select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23BFA89E' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 12px 12px;
+            padding-right: 32px;
+            cursor: pointer;
+        }
+        .fn-control-select option {
+            background-color: #1c1917;
+            color: var(--bn-mint);
+            padding: 8px 12px;
+        }
         .fn-control-select:focus, .fn-search-input:focus {
             border-color: var(--bn-khaki);
-            box-shadow: 0 0 0 2px rgba(191, 168, 158, 0.2);
+            box-shadow: 0 0 0 3px rgba(191, 168, 158, 0.2);
         }
         .fn-search-wrapper {
             position: relative;
