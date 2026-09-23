@@ -28,7 +28,26 @@
             @endif
             @if(!empty($siteConfiguration))
                 <script>
-                    window.SiteConfiguration = {!! json_encode($siteConfiguration) !!};
+                    window.SiteConfiguration = {!! json_encode(array_merge($siteConfiguration, [
+                        'hubLinks' => [
+                            'billing' => [
+                                'enabled' => (bool) app(\Pterodactyl\Contracts\Repository\SettingsRepositoryInterface::class)->get('settings::bytenodes:hub:billing_enabled', true),
+                                'url' => app(\Pterodactyl\Contracts\Repository\SettingsRepositoryInterface::class)->get('settings::bytenodes:hub:billing_url', 'https://billing.bytenodes.id'),
+                            ],
+                            'discord' => [
+                                'enabled' => (bool) app(\Pterodactyl\Contracts\Repository\SettingsRepositoryInterface::class)->get('settings::bytenodes:hub:discord_enabled', true),
+                                'url' => app(\Pterodactyl\Contracts\Repository\SettingsRepositoryInterface::class)->get('settings::bytenodes:hub:discord_url', 'https://dsc.gg/bytenodes'),
+                            ],
+                            'status' => [
+                                'enabled' => (bool) app(\Pterodactyl\Contracts\Repository\SettingsRepositoryInterface::class)->get('settings::bytenodes:hub:status_enabled', true),
+                                'url' => app(\Pterodactyl\Contracts\Repository\SettingsRepositoryInterface::class)->get('settings::bytenodes:hub:status_url', 'https://status.bytenodes.id'),
+                            ],
+                            'support' => [
+                                'enabled' => (bool) app(\Pterodactyl\Contracts\Repository\SettingsRepositoryInterface::class)->get('settings::bytenodes:hub:support_enabled', true),
+                                'url' => app(\Pterodactyl\Contracts\Repository\SettingsRepositoryInterface::class)->get('settings::bytenodes:hub:support_url', 'https://dsc.gg/bytenodes'),
+                            ],
+                        ]
+                    ])) !!};
                 </script>
             @endif
         @show

@@ -57,6 +57,8 @@ const SidebarContainer = styled.aside<{ $open: boolean }>`
     top: 0;
     left: 0;
     height: 100dvh;
+    max-height: 100dvh;
+    overflow: hidden;
     transform: ${(props) => (props.$open ? 'translateX(0)' : 'translateX(-100%)')};
     transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -64,6 +66,8 @@ const SidebarContainer = styled.aside<{ $open: boolean }>`
         position: sticky;
         top: 0;
         height: 100vh;
+        max-height: 100vh;
+        overflow: hidden;
         align-self: flex-start;
         transform: none;
     }
@@ -134,7 +138,8 @@ const CloseMobileBtn = styled.button`
 `;
 
 const NavScrollArea = styled.div`
-    flex: 1;
+    flex: 1 1 auto;
+    min-height: 0;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
@@ -281,30 +286,62 @@ export default ({ mobileOpen = false, onCloseMobile }: SidebarProps) => {
                         <span>Activity</span>
                     </NavItem>
 
-                    <CategoryLabel>Links</CategoryLabel>
-                    <ExternalNavItem href="https://discord.gg" target="_blank" rel="noreferrer">
-                        <FontAwesomeIcon icon={faComments} />
-                        <span>Discord</span>
-                    </ExternalNavItem>
-                    <ExternalNavItem href="https://discord.gg" target="_blank" rel="noreferrer">
-                        <FontAwesomeIcon icon={faServer} />
-                        <span>Nodes Status</span>
-                    </ExternalNavItem>
-                    <ExternalNavItem href="https://discord.gg" target="_blank" rel="noreferrer">
-                        <FontAwesomeIcon icon={faCreditCard} />
-                        <span>Billing</span>
-                    </ExternalNavItem>
-                    <ExternalNavItem href="https://discord.gg" target="_blank" rel="noreferrer">
-                        <FontAwesomeIcon icon={faLifeRing} />
-                        <span>Support</span>
-                    </ExternalNavItem>
+                    {(() => {
+                        const hub = (window as any).SiteConfiguration?.hubLinks;
+                        const links = [
+                            {
+                                key: 'discord',
+                                title: 'Discord',
+                                icon: faComments,
+                                enabled: hub?.discord ? !!hub.discord.enabled : true,
+                                url: hub?.discord?.url || 'https://dsc.gg/bytenodes',
+                            },
+                            {
+                                key: 'status',
+                                title: 'Nodes Status',
+                                icon: faServer,
+                                enabled: hub?.status ? !!hub.status.enabled : true,
+                                url: hub?.status?.url || 'https://status.bytenodes.id',
+                            },
+                            {
+                                key: 'billing',
+                                title: 'Billing',
+                                icon: faCreditCard,
+                                enabled: hub?.billing ? !!hub.billing.enabled : true,
+                                url: hub?.billing?.url || 'https://billing.bytenodes.id',
+                            },
+                            {
+                                key: 'support',
+                                title: 'Support',
+                                icon: faLifeRing,
+                                enabled: hub?.support ? !!hub.support.enabled : true,
+                                url: hub?.support?.url || 'https://dsc.gg/bytenodes',
+                            },
+                        ].filter((l) => l.enabled && l.url);
+
+                        if (links.length === 0) return null;
+
+                        return (
+                            <>
+                                <CategoryLabel>Links</CategoryLabel>
+                                {links.map((link) => (
+                                    <ExternalNavItem key={link.key} href={link.url} target="_blank" rel="noreferrer">
+                                        <FontAwesomeIcon icon={link.icon} />
+                                        <span>{link.title}</span>
+                                    </ExternalNavItem>
+                                ))}
+                            </>
+                        );
+                    })()}
                 </NavScrollArea>
 
-                <SidebarProfileWidget
-                    username={user?.username || 'User'}
-                    email={user?.email || ''}
-                    isAdmin={user?.rootAdmin}
-                />
+                <div style={{ flexShrink: 0, marginTop: 'auto', paddingTop: '8px' }}>
+                    <SidebarProfileWidget
+                        username={user?.username || 'User'}
+                        email={user?.email || ''}
+                        isAdmin={user?.rootAdmin}
+                    />
+                </div>
             </SidebarContainer>
         </>
     );
