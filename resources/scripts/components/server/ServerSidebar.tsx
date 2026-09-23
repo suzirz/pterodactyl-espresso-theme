@@ -865,6 +865,18 @@ export default ({ mobileOpen = false, onCloseMobile }: SidebarProps) => {
                         <span>Admin Area</span>
                     </AdminExternalLink>
                 )}
+
+                <div style={{ textAlign: 'center', padding: '10px 0 6px 0', fontSize: '11px', color: '#8B786D', flexShrink: 0 }}>
+                    Powered By{' '}
+                    <a
+                        href="https://bytenodes.id"
+                        target="_blank"
+                        rel="noreferrer"
+                        style={{ color: '#BFA89E', fontWeight: 600, textDecoration: 'none' }}
+                    >
+                        ByteNodes.id
+                    </a>
+                </div>
             </SidebarContainer>
 
             {/* Staff Support Modal */}

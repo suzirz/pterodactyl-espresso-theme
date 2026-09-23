@@ -338,6 +338,17 @@ export default ({ mobileOpen = false, onCloseMobile }: SidebarProps) => {
                         email={user?.email || ''}
                         isAdmin={user?.rootAdmin}
                     />
+                    <div style={{ textAlign: 'center', padding: '10px 0 4px 0', fontSize: '11px', color: '#8B786D' }}>
+                        Powered By{' '}
+                        <a
+                            href="https://bytenodes.id"
+                            target="_blank"
+                            rel="noreferrer"
+                            style={{ color: '#BFA89E', fontWeight: 600, textDecoration: 'none' }}
+                        >
+                            ByteNodes.id
+                        </a>
+                    </div>
                 </div>
             </SidebarContainer>
         </>
