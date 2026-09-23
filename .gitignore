@@ -1,0 +1,9 @@
+node_modules/
+.env
+*.log
+.DS_Store
+Thumbs.db
+.espresso-theme-backup/
+public/assets/
+yarn-error.log
+npm-debug.log

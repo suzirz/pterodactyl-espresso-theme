@@ -1,0 +1,19 @@
+{
+  "name": "pterodactyl-espresso-theme",
+  "version": "1.0.0",
+  "description": "Refined warm-minimalist charcoal espresso cockpit theme for Pterodactyl Panel",
+  "main": "index.js",
+  "keywords": [
+    "pterodactyl",
+    "theme",
+    "pterodactyl-theme",
+    "espresso",
+    "bento-grid",
+    "dark-mode",
+    "minimalist",
+    "game-server"
+  ],
+  "author": "Bytenodes",
+  "license": "MIT",
+  "homepage": "https://github.com/bytenodeshost/pterodactyl-espresso-theme#readme"
+}
