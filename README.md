@@ -2,6 +2,7 @@
 
 A dark warm-minimalist theme for Pterodactyl Panel (v1.11.x) with a bento-style server overview, custom terminal colors, and adaptive game badges.
 
+[![Release: v1.0.0](https://img.shields.io/badge/version-1.0.0-emerald.svg)](https://github.com/suzirz/pterodactyl-espresso-theme/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Pterodactyl](https://img.shields.io/badge/Pterodactyl-v1.11.x-blue)](https://pterodactyl.io/)
 [![React](https://img.shields.io/badge/React-17%2B-61DAFB?logo=react&logoColor=black)](https://reactjs.org/)
