@@ -273,7 +273,8 @@ export default () => {
     const [copied, setCopied] = useState(false);
 
     const allocation = server.allocations.find((alloc) => alloc.isDefault) || server.allocations[0];
-    const ipAddr = allocation ? (allocation.alias || allocation.ip) : '0.0.0.0';
+    const isDemo = (window as any).PterodactylUser?.username === 'demo' || (window as any).PterodactylUser?.email === 'demo@bytenodes.id';
+    const ipAddr = allocation ? ((isDemo || allocation.ip === '0.0.0.0') ? '0.0.0.0' : (allocation.alias || allocation.ip)) : '0.0.0.0';
     const port = allocation ? allocation.port : 0;
     const fullAddr = `${ipAddr}:${port}`;
 

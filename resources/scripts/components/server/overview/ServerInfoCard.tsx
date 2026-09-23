@@ -172,8 +172,10 @@ const ServerInfoCard: React.FC = () => {
     const uuid = server.uuid;
     const node = server.node;
     const allocation = server.allocations.find((a: any) => a.isDefault);
+    const isDemo = (window as any).PterodactylUser?.username === 'demo' || (window as any).PterodactylUser?.email === 'demo@bytenodes.id';
+    const allocHost = (isDemo || allocation?.ip === '0.0.0.0') ? '0.0.0.0' : (allocation?.alias || allocation?.ip);
     const hostname = allocation
-        ? `${allocation.alias || allocation.ip}:${allocation.port}`
+        ? `${allocHost}:${allocation.port}`
         : '—';
 
     const handleCopyUuid = () => {

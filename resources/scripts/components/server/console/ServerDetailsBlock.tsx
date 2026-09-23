@@ -194,7 +194,9 @@ export default () => {
     const limits = server.limits;
 
     const allocation = server.allocations.find((alloc) => alloc.isDefault) || server.allocations[0];
-    const fullAddress = allocation ? `${allocation.alias || allocation.ip}:${allocation.port}` : 'Unavailable';
+    const isDemo = (window as any).PterodactylUser?.username === 'demo' || (window as any).PterodactylUser?.email === 'demo@bytenodes.id';
+    const allocHost = (isDemo || allocation?.ip === '0.0.0.0') ? '0.0.0.0' : (allocation?.alias || allocation?.ip);
+    const fullAddress = allocation ? `${allocHost}:${allocation.port}` : 'Unavailable';
 
     // Live continuous second ticker
     useEffect(() => {

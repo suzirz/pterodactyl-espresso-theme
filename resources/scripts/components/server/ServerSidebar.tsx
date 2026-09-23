@@ -560,7 +560,9 @@ export default ({ mobileOpen = false, onCloseMobile }: SidebarProps) => {
     };
 
     const defaultAlloc = server?.allocations?.find((alloc) => alloc.isDefault);
-    const connString = defaultAlloc ? `${defaultAlloc.alias || ip(defaultAlloc.ip)}:${defaultAlloc.port}` : '';
+    const isDemo = (window as any).PterodactylUser?.username === 'demo' || (window as any).PterodactylUser?.email === 'demo@bytenodes.id';
+    const allocHost = (isDemo || defaultAlloc?.ip === '0.0.0.0') ? '0.0.0.0' : (defaultAlloc?.alias || ip(defaultAlloc?.ip || ''));
+    const connString = defaultAlloc ? `${allocHost}:${defaultAlloc.port}` : '';
 
     const handleCopy = (e: React.MouseEvent) => {
         e.preventDefault();

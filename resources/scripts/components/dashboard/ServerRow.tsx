@@ -346,9 +346,9 @@ const StatusPill = styled.div<{ $status?: ServerPowerState }>`
     background-color: #1c1917;
     border: 1px solid
         ${({ $status }) =>
-            $status === 'running'
-                ? 'rgba(34, 197, 94, 0.3)'
-                : $status === 'starting'
+        $status === 'running'
+            ? 'rgba(34, 197, 94, 0.3)'
+            : $status === 'starting'
                 ? 'rgba(234, 179, 8, 0.3)'
                 : 'rgba(139, 120, 109, 0.25)'};
 `;
@@ -483,10 +483,10 @@ export default ({ server, className }: { server: Server; className?: string }) =
                         {isSuspended
                             ? 'Suspended'
                             : server.isTransferring
-                            ? 'Transferring...'
-                            : server.status === 'installing'
-                            ? 'Installing...'
-                            : 'Offline'}
+                                ? 'Transferring...'
+                                : server.status === 'installing'
+                                    ? 'Installing...'
+                                    : 'Offline'}
                     </div>
                 ) : (
                     <>
