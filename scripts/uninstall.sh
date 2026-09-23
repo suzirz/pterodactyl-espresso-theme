@@ -12,23 +12,23 @@ RED='\033[1;31m'
 NC='\033[0m'
 
 if [ "$EUID" -ne 0 ]; then
-  echo -e "${RED}[ERROR] This script must be executed as root (or with sudo).${NC}"
+  echo -e "${RED}[ERROR] Run this script as root or with sudo.${NC}"
   exit 1
 fi
 
 PTERO_DIR="/var/www/pterodactyl"
 if [ ! -d "$PTERO_DIR" ]; then
-  echo -e "${RED}[ERROR] Pterodactyl directory not found at $PTERO_DIR!${NC}"
+  echo -e "${RED}[ERROR] Pterodactyl directory not found at $PTERO_DIR.${NC}"
   exit 1
 fi
 
 BACKUP_BASE="$PTERO_DIR/.espresso-theme-backup"
 if [ ! -d "$BACKUP_BASE" ]; then
-  echo -e "${YELLOW}[!] No backup directory found at $BACKUP_BASE.${NC}"
-  echo -e "Attempting to revert using git checkout if this is a git clone..."
+  echo -e "${YELLOW}No backup folder found at $BACKUP_BASE.${NC}"
+  echo -e "Attempting git checkout revert if panel is a git clone..."
   cd "$PTERO_DIR"
   git checkout -- resources/ 2>/dev/null || {
-    echo -e "${RED}[ERROR] Cannot revert automatically without backup or git.${NC}"
+    echo -e "${RED}[ERROR] Cannot revert without a backup or git history.${NC}"
     exit 1
   }
 else
@@ -38,13 +38,13 @@ else
     exit 1
   fi
 
-  echo -e "${YELLOW}Restoring backup from: $LATEST_BACKUP...${NC}"
+  echo -e "Restoring backup from $LATEST_BACKUP..."
   rm -rf "$PTERO_DIR/resources"
   cp -r "$LATEST_BACKUP/resources" "$PTERO_DIR/"
-  echo -e "${GREEN}✓ Original resources restored.${NC}"
+  echo -e "${GREEN}Resources restored.${NC}"
 fi
 
-echo -e "\nRebuilding default Pterodactyl assets..."
+echo -e "\nRebuilding default assets..."
 cd "$PTERO_DIR"
 yarn build:production
 
@@ -52,4 +52,4 @@ chown -R www-data:www-data "$PTERO_DIR"
 php artisan view:clear 2>/dev/null || true
 php artisan config:clear 2>/dev/null || true
 
-echo -e "\n${GREEN}✓ Pterodactyl panel successfully restored to default theme!${NC}"
+echo -e "\n${GREEN}Theme uninstalled. Panel restored to original state.${NC}\n"
