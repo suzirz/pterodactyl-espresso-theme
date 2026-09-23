@@ -36,6 +36,27 @@
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
 
+            @php
+                $bnAdminSettings = app(\Pterodactyl\Contracts\Repository\SettingsRepositoryInterface::class);
+                $bnAdminAccent = $bnAdminSettings->get('settings::bytenodes:ui:accent_color', '#BFA89E');
+                $bnAdminCustomCss = $bnAdminSettings->get('settings::bytenodes:ui:custom_css', '');
+                $bnAdminFooterText = $bnAdminSettings->get('settings::bytenodes:ui:footer_credit_text', 'Powered By ByteNodes.id');
+                $bnAdminFooterUrl = $bnAdminSettings->get('settings::bytenodes:ui:footer_credit_url', 'https://bytenodes.id');
+            @endphp
+            @if($bnAdminAccent !== '#BFA89E')
+            <style>
+                :root {
+                    --bn-accent: {{ $bnAdminAccent }} !important;
+                    --bn-khaki: {{ $bnAdminAccent }} !important;
+                }
+            </style>
+            @endif
+            @if(!empty($bnAdminCustomCss))
+            <style id="bytenodes-admin-custom-css">
+                {!! $bnAdminCustomCss !!}
+            </style>
+            @endif
+
             <!--[if lt IE 9]>
             <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
             <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -209,7 +230,7 @@
                         @if(Route::has('admin.settings.links'))
                         <li class="{{ starts_with(Route::currentRouteName(), 'admin.settings.links') ? 'active' : '' }}">
                             <a href="{{ route('admin.settings.links') }}">
-                                <i class="fa fa-link" style="color: #BFA89E;"></i> <span>ByteNodes UI & Links</span>
+                                <i class="fa fa-paint-brush" style="color: #BFA89E;"></i> <span>ByteNodes UI Editor</span>
                             </a>
                         </li>
                         @endif
@@ -251,7 +272,7 @@
                     <strong><i class="fa fa-fw {{ $appIsGit ? 'fa-git-square' : 'fa-code-fork' }}"></i></strong> {{ $appVersion }}<br />
                     <strong><i class="fa fa-fw fa-clock-o"></i></strong> {{ round(microtime(true) - (defined('LARAVEL_START') ? LARAVEL_START : microtime(true)), 3) }}s
                 </div>
-                <strong>Bytenodes Fleet Command</strong> &copy; {{ date('Y') }} &middot; Powered By <a href="https://bytenodes.id" target="_blank" style="color: #BFA89E; font-weight: 600; text-decoration: none;">ByteNodes.id</a>
+                <strong>Bytenodes Fleet Command</strong> &copy; {{ date('Y') }} &middot; <a href="{{ $bnAdminFooterUrl }}" target="_blank" style="color: {{ $bnAdminAccent }}; font-weight: 600; text-decoration: none;">{{ $bnAdminFooterText }}</a>
             </footer>
         </div>
         @section('footer-scripts')

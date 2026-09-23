@@ -866,17 +866,25 @@ export default ({ mobileOpen = false, onCloseMobile }: SidebarProps) => {
                     </AdminExternalLink>
                 )}
 
-                <div style={{ textAlign: 'center', padding: '10px 0 6px 0', fontSize: '11px', color: '#8B786D', flexShrink: 0 }}>
-                    Powered By{' '}
-                    <a
-                        href="https://bytenodes.id"
-                        target="_blank"
-                        rel="noreferrer"
-                        style={{ color: '#BFA89E', fontWeight: 600, textDecoration: 'none' }}
-                    >
-                        ByteNodes.id
-                    </a>
-                </div>
+                {(() => {
+                    const bytenodesUi = (window as any).SiteConfiguration?.bytenodesUi;
+                    const creditText = bytenodesUi?.footerCreditText || 'Powered By ByteNodes.id';
+                    const creditUrl = bytenodesUi?.footerCreditUrl || 'https://bytenodes.id';
+                    const accent = bytenodesUi?.accentColor || '#BFA89E';
+
+                    return (
+                        <div style={{ textAlign: 'center', padding: '10px 0 6px 0', fontSize: '11px', color: '#8B786D', flexShrink: 0 }}>
+                            <a
+                                href={creditUrl}
+                                target="_blank"
+                                rel="noreferrer"
+                                style={{ color: accent, fontWeight: 600, textDecoration: 'none' }}
+                            >
+                                {creditText}
+                            </a>
+                        </div>
+                    );
+                })()}
             </SidebarContainer>
 
             {/* Staff Support Modal */}

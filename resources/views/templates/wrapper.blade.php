@@ -27,28 +27,57 @@
                 </script>
             @endif
             @if(!empty($siteConfiguration))
+                @php
+                    $bnSettings = app(\Pterodactyl\Contracts\Repository\SettingsRepositoryInterface::class);
+                    $bnAccent = $bnSettings->get('settings::bytenodes:ui:accent_color', '#BFA89E');
+                    $bnCustomCss = $bnSettings->get('settings::bytenodes:ui:custom_css', '');
+                @endphp
                 <script>
                     window.SiteConfiguration = {!! json_encode(array_merge($siteConfiguration, [
+                        'bytenodesUi' => [
+                            'brandName' => $bnSettings->get('settings::bytenodes:ui:brand_name', 'ByteNodes'),
+                            'footerCreditText' => $bnSettings->get('settings::bytenodes:ui:footer_credit_text', 'Powered By ByteNodes.id'),
+                            'footerCreditUrl' => $bnSettings->get('settings::bytenodes:ui:footer_credit_url', 'https://bytenodes.id'),
+                            'accentColor' => $bnAccent,
+                        ],
                         'hubLinks' => [
                             'billing' => [
-                                'enabled' => (bool) app(\Pterodactyl\Contracts\Repository\SettingsRepositoryInterface::class)->get('settings::bytenodes:hub:billing_enabled', true),
-                                'url' => app(\Pterodactyl\Contracts\Repository\SettingsRepositoryInterface::class)->get('settings::bytenodes:hub:billing_url', 'https://billing.bytenodes.id'),
+                                'enabled' => (bool) $bnSettings->get('settings::bytenodes:hub:billing_enabled', true),
+                                'url' => $bnSettings->get('settings::bytenodes:hub:billing_url', 'https://billing.bytenodes.id'),
                             ],
                             'discord' => [
-                                'enabled' => (bool) app(\Pterodactyl\Contracts\Repository\SettingsRepositoryInterface::class)->get('settings::bytenodes:hub:discord_enabled', true),
-                                'url' => app(\Pterodactyl\Contracts\Repository\SettingsRepositoryInterface::class)->get('settings::bytenodes:hub:discord_url', 'https://dsc.gg/bytenodes'),
+                                'enabled' => (bool) $bnSettings->get('settings::bytenodes:hub:discord_enabled', true),
+                                'url' => $bnSettings->get('settings::bytenodes:hub:discord_url', 'https://dsc.gg/bytenodes'),
                             ],
                             'status' => [
-                                'enabled' => (bool) app(\Pterodactyl\Contracts\Repository\SettingsRepositoryInterface::class)->get('settings::bytenodes:hub:status_enabled', true),
-                                'url' => app(\Pterodactyl\Contracts\Repository\SettingsRepositoryInterface::class)->get('settings::bytenodes:hub:status_url', 'https://status.bytenodes.id'),
+                                'enabled' => (bool) $bnSettings->get('settings::bytenodes:hub:status_enabled', true),
+                                'url' => $bnSettings->get('settings::bytenodes:hub:status_url', 'https://status.bytenodes.id'),
                             ],
                             'support' => [
-                                'enabled' => (bool) app(\Pterodactyl\Contracts\Repository\SettingsRepositoryInterface::class)->get('settings::bytenodes:hub:support_enabled', true),
-                                'url' => app(\Pterodactyl\Contracts\Repository\SettingsRepositoryInterface::class)->get('settings::bytenodes:hub:support_url', 'https://dsc.gg/bytenodes'),
+                                'enabled' => (bool) $bnSettings->get('settings::bytenodes:hub:support_enabled', true),
+                                'url' => $bnSettings->get('settings::bytenodes:hub:support_url', 'https://dsc.gg/bytenodes'),
+                            ],
+                            'custom' => [
+                                'enabled' => (bool) $bnSettings->get('settings::bytenodes:hub:custom_link_enabled', false),
+                                'title' => $bnSettings->get('settings::bytenodes:hub:custom_link_title', 'Website'),
+                                'url' => $bnSettings->get('settings::bytenodes:hub:custom_link_url', 'https://bytenodes.id'),
                             ],
                         ]
                     ])) !!};
                 </script>
+                @if($bnAccent !== '#BFA89E')
+                <style>
+                    :root {
+                        --bn-accent: {{ $bnAccent }} !important;
+                        --bn-khaki: {{ $bnAccent }} !important;
+                    }
+                </style>
+                @endif
+                @if(!empty($bnCustomCss))
+                <style id="bytenodes-custom-css">
+                    {!! $bnCustomCss !!}
+                </style>
+                @endif
             @endif
         @show
                 <link rel="preconnect" href="https://fonts.googleapis.com">
