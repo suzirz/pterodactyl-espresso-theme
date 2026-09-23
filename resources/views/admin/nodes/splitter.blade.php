@@ -486,7 +486,7 @@
                         <label for="parent_node_id" class="bn-label">
                             <i class="fa fa-server" style="color: var(--bn-taupe); margin-right: 4px;"></i> Select Parent Node (Physical Host)
                         </label>
-                        <select id="parent_node_id" name="parent_node_id" class="bn-select" onchange="updateParentVisual()">
+                        <select id="parent_node_id" name="parent_node_id" class="bn-select select2" style="width: 100%;" onchange="updateParentVisual()">
                             @foreach ($parentNodes as $p)
                                 <option value="{{ $p->id }}" 
                                     data-name="{{ $p->name }}"
@@ -739,20 +739,20 @@
     <div class="modal-dialog modal-sm" role="document">
         <form id="renameForm" method="POST">
             {!! csrf_field() !!}
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" style="color: var(--bn-taupe); opacity: 1;">&times;</button>
+            <div class="modal-content" style="background-color: #1c1917 !important; border: 1px solid rgba(191, 168, 158, 0.25) !important; border-radius: 12px !important; overflow: hidden !important; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85) !important;">
+                <div class="modal-header" style="background-color: #1c1917 !important; border-bottom: 1px solid rgba(191, 168, 158, 0.15) !important; padding: 16px 20px !important;">
+                    <button type="button" class="close" data-dismiss="modal" style="color: var(--bn-taupe); opacity: 0.85; font-size: 22px;">&times;</button>
                     <h4 class="modal-title" style="font-family: 'Outfit'; font-weight: 600; font-size: 16px; color: var(--bn-mint);">
                         <i class="fa fa-pencil" style="color: var(--bn-khaki); margin-right: 6px;"></i> Rename Sub-Node
                     </h4>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" style="background-color: #1c1917 !important; padding: 20px !important;">
                     <div class="bn-form-group" style="margin-bottom: 0;">
                         <label for="rename_name" class="bn-label">New Sub-Node Name</label>
                         <input type="text" name="name" id="rename_name" class="bn-input" required autocomplete="off">
                     </div>
                 </div>
-                <div class="modal-footer" style="display: flex; justify-content: flex-end; gap: 8px;">
+                <div class="modal-footer" style="background-color: #141211 !important; border-top: 1px solid rgba(191, 168, 158, 0.15) !important; padding: 14px 20px !important; display: flex; justify-content: flex-end; gap: 8px;">
                     <button type="button" class="bn-action-btn" data-dismiss="modal">Cancel</button>
                     <button type="submit" class="bn-action-btn" style="background: var(--bn-khaki); color: #141211; font-weight: 600; border-color: var(--bn-khaki);">
                         <i class="fa fa-save"></i> Save Changes
@@ -767,6 +767,21 @@
 @section('footer-scripts')
     @parent
     <script>
+        $(function() {
+            $('#parent_node_id').select2({
+                theme: 'default',
+                width: '100%',
+                minimumResultsForSearch: -1
+            }).on('change', function() {
+                updateParentVisual();
+            });
+
+            $('#scheme').select2({
+                theme: 'default',
+                width: '100%',
+                minimumResultsForSearch: -1
+            });
+        });
         function updateParentVisual() {
             var sel = document.getElementById('parent_node_id');
             if (!sel || !sel.options || sel.selectedIndex < 0) return;

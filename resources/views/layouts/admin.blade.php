@@ -115,6 +115,33 @@
                             </a>
                         </li>
 
+                        <li class="header">FLEET & INFRASTRUCTURE</li>
+                        <li class="{{ ! starts_with(Route::currentRouteName(), 'admin.servers') ?: 'active' }}">
+                            <a href="{{ route('admin.servers') }}">
+                                <i class="fa fa-server"></i> <span>Servers</span>
+                            </a>
+                        </li>
+                        <li class="{{ Route::currentRouteName() === 'admin.nodes' || (starts_with(Route::currentRouteName(), 'admin.nodes') && !starts_with(Route::currentRouteName(), 'admin.nodes.splitter')) ? 'active' : '' }}">
+                            <a href="{{ route('admin.nodes') }}">
+                                <i class="fa fa-sitemap"></i> <span>Nodes</span>
+                            </a>
+                        </li>
+                        <li class="{{ starts_with(Route::currentRouteName(), 'admin.nodes.splitter') ? 'active' : '' }}">
+                            <a href="{{ route('admin.nodes.splitter') }}">
+                                <i class="fa fa-code-fork" style="color: #52b788;"></i> <span>Node Splitter</span>
+                            </a>
+                        </li>
+                        <li class="{{ ! starts_with(Route::currentRouteName(), 'admin.locations') ?: 'active' }}">
+                            <a href="{{ route('admin.locations') }}">
+                                <i class="fa fa-globe"></i> <span>Locations</span>
+                            </a>
+                        </li>
+                        <li class="{{ ! starts_with(Route::currentRouteName(), 'admin.databases') ?: 'active' }}">
+                            <a href="{{ route('admin.databases') }}">
+                                <i class="fa fa-database"></i> <span>Databases</span>
+                            </a>
+                        </li>
+
                         <li class="header">EXTENSIONS & MODULES</li>
                         @yield("blueprint.sidenav")
                         @if(Route::has('admin.settings.cloudbackups'))
@@ -155,39 +182,8 @@
                             </a>
                         </li>
                         @endif
-                        <li class="header">MANAGEMENT</li>
-                        <li class="{{ ! starts_with(Route::currentRouteName(), 'admin.servers') ?: 'active' }}">
-                            <a href="{{ route('admin.servers') }}">
-                                <i class="fa fa-server"></i> <span>Servers</span>
-                            </a>
-                        </li>
-                        <li class="{{ Route::currentRouteName() === 'admin.nodes' || (starts_with(Route::currentRouteName(), 'admin.nodes') && !starts_with(Route::currentRouteName(), 'admin.nodes.splitter')) ? 'active' : '' }}">
-                            <a href="{{ route('admin.nodes') }}">
-                                <i class="fa fa-sitemap"></i> <span>Nodes</span>
-                            </a>
-                        </li>
-                        <li class="{{ starts_with(Route::currentRouteName(), 'admin.nodes.splitter') ? 'active' : '' }}">
-                            <a href="{{ route('admin.nodes.splitter') }}">
-                                <i class="fa fa-code-fork text-green"></i> <span>Node Splitter</span>
-                            </a>
-                        </li>
-                        <li class="{{ ! starts_with(Route::currentRouteName(), 'admin.users') ?: 'active' }}">
-                            <a href="{{ route('admin.users') }}">
-                                <i class="fa fa-users"></i> <span>Users</span>
-                            </a>
-                        </li>
-                        <li class="{{ ! starts_with(Route::currentRouteName(), 'admin.databases') ?: 'active' }}">
-                            <a href="{{ route('admin.databases') }}">
-                                <i class="fa fa-database"></i> <span>Databases</span>
-                            </a>
-                        </li>
-                        <li class="{{ ! starts_with(Route::currentRouteName(), 'admin.locations') ?: 'active' }}">
-                            <a href="{{ route('admin.locations') }}">
-                                <i class="fa fa-globe"></i> <span>Locations</span>
-                            </a>
-                        </li>
 
-                        <li class="header">SERVICES</li>
+                        <li class="header">SERVICES & MOUNT</li>
                         <li class="{{ ! starts_with(Route::currentRouteName(), 'admin.mounts') ?: 'active' }}">
                             <a href="{{ route('admin.mounts') }}">
                                 <i class="fa fa-folder-open"></i> <span>Mounts</span>
@@ -198,11 +194,25 @@
                                 <i class="fa fa-cubes"></i> <span>Nests & Eggs</span>
                             </a>
                         </li>
+
+                        <li class="header">SYSTEM & UI SETTINGS</li>
+                        <li class="{{ ! starts_with(Route::currentRouteName(), 'admin.users') ?: 'active' }}">
+                            <a href="{{ route('admin.users') }}">
+                                <i class="fa fa-users"></i> <span>Users</span>
+                            </a>
+                        </li>
                         <li class="{{ in_array(Route::currentRouteName(), ['admin.settings', 'admin.settings.mail', 'admin.settings.advanced']) ? 'active' : '' }}">
                             <a href="{{ route('admin.settings') }}">
                                 <i class="fa fa-sliders"></i> <span>Settings</span>
                             </a>
                         </li>
+                        @if(Route::has('admin.settings.links'))
+                        <li class="{{ starts_with(Route::currentRouteName(), 'admin.settings.links') ? 'active' : '' }}">
+                            <a href="{{ route('admin.settings.links') }}">
+                                <i class="fa fa-link" style="color: #BFA89E;"></i> <span>ByteNodes UI & Links</span>
+                            </a>
+                        </li>
+                        @endif
                     </ul>
                 </section>
             </aside>
@@ -241,7 +251,7 @@
                     <strong><i class="fa fa-fw {{ $appIsGit ? 'fa-git-square' : 'fa-code-fork' }}"></i></strong> {{ $appVersion }}<br />
                     <strong><i class="fa fa-fw fa-clock-o"></i></strong> {{ round(microtime(true) - (defined('LARAVEL_START') ? LARAVEL_START : microtime(true)), 3) }}s
                 </div>
-                <strong>Bytenodes Fleet Command</strong> &copy; {{ date('Y') }} &middot; Powered by Pterodactyl &amp; Blueprint
+                <strong>Bytenodes Fleet Command</strong> &copy; {{ date('Y') }} &middot; Powered By <a href="https://bytenodes.id" target="_blank" style="color: #BFA89E; font-weight: 600; text-decoration: none;">ByteNodes.id</a>
             </footer>
         </div>
         @section('footer-scripts')
@@ -366,6 +376,62 @@
                         if (!$(e.target).closest('.bytenodes-omnibar-wrapper').length) {
                             $results.hide();
                         }
+                    });
+
+                    // =========================================================================
+                    // 1. Sidebar Scroll Persistence across page transitions
+                    // =========================================================================
+                    var $sidebar = $('.main-sidebar');
+                    if ($sidebar.length) {
+                        var savedScroll = sessionStorage.getItem('bytenodes_admin_sidebar_scroll');
+                        if (savedScroll !== null) {
+                            $sidebar.scrollTop(parseInt(savedScroll, 10));
+                        } else {
+                            var $activeNav = $sidebar.find('li.active').last();
+                            if ($activeNav.length) {
+                                var offset = $activeNav.position().top;
+                                if (offset > $sidebar.height() - 140) {
+                                    $sidebar.scrollTop(offset - 100);
+                                }
+                            }
+                        }
+
+                        $sidebar.on('click', 'a', function() {
+                            sessionStorage.setItem('bytenodes_admin_sidebar_scroll', $sidebar.scrollTop());
+                        });
+
+                        var scrollDebounce = null;
+                        $sidebar.on('scroll', function() {
+                            clearTimeout(scrollDebounce);
+                            scrollDebounce = setTimeout(function() {
+                                sessionStorage.setItem('bytenodes_admin_sidebar_scroll', $sidebar.scrollTop());
+                            }, 100);
+                        });
+                    }
+
+                    // =========================================================================
+                    // 2. Global Select2 Auto-Initializer (Replaces Windows native blue dropdown)
+                    // =========================================================================
+                    function initSelect2Fields(scope) {
+                        var $container = scope ? $(scope) : $(document);
+                        $container.find('select.bn-select, select.select2, select.form-control:not(.no-select2)').each(function() {
+                            var $sel = $(this);
+                            if ($sel.hasClass('select2-hidden-accessible')) return;
+
+                            var count = $sel.find('option').length;
+                            $sel.select2({
+                                theme: 'default',
+                                width: '100%',
+                                minimumResultsForSearch: count > 8 ? 0 : -1,
+                                dropdownParent: $sel.closest('.modal').length ? $sel.closest('.modal') : $('body')
+                            });
+                        });
+                    }
+
+                    initSelect2Fields();
+
+                    $(document).on('shown.bs.modal', function(e) {
+                        initSelect2Fields(e.target);
                     });
                 });
             </script>
