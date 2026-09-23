@@ -10,7 +10,19 @@ A dark warm-minimalist theme for Pterodactyl Panel (v1.11.x) with a bento-style 
 
 ---
 
+## Live Demo
+
+A live showcase of this theme is accessible at:
+- **URL**: [https://panel.bytenodes.id](https://panel.bytenodes.id)
+- **Username**: `demo`
+- **Password**: `demo12345`
+
+> **Note**: The demo account is strictly configured in read-only mode. All write actions (power operations, file modifications, console input, account settings) are blocked.
+
+---
+
 ## What It Looks Like & Features
+
 
 - **Dark Espresso Palette**: Uses warm charcoal surfaces (`#141211`, `#1c1917`, `#25211e`) with khaki beige (`#BFA89E`) accents and high-contrast mint cream (`#EBF5EE`) text instead of the default cold blue/grey.
 - **Bento Telemetry Cards**: Reorganizes server metrics (CPU, Memory, Disk, Network) into a compact grid layout with clear real-time numbers.
