@@ -52,23 +52,20 @@ const SidebarContainer = styled.aside<{ $open: boolean }>`
     z-index: 50;
     box-sizing: border-box;
 
-    /* Mobile Drawer */
+    /* Always fixed to viewport so scrolling content never scrolls the sidebar */
     position: fixed;
     top: 0;
     left: 0;
+    bottom: 0;
+    height: 100vh;
     height: 100dvh;
+    max-height: 100vh;
     max-height: 100dvh;
     overflow: hidden;
     transform: ${(props) => (props.$open ? 'translateX(0)' : 'translateX(-100%)')};
     transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 
     @media (min-width: 1024px) {
-        position: sticky;
-        top: 0;
-        height: 100vh;
-        max-height: 100vh;
-        overflow: hidden;
-        align-self: flex-start;
         transform: none;
     }
 `;
