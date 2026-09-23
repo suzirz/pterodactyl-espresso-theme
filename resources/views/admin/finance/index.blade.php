@@ -11,7 +11,7 @@
                 Financial & Billing Manager
             </h1>
             <p style="font-family: 'Outfit', sans-serif; font-size: 13px; color: #8B786D; margin: 4px 0 0 0;">
-                Pantau pendapatan berulang (MRR), siklus sewa server, tunggakan pembayaran, dan status billing.
+                Monitor recurring revenue (MRR), subscription lifecycles, outstanding balances, and billing states.
             </p>
         </div>
         <ol class="breadcrumb" style="position: static; float: none; background: transparent; padding: 0; margin: 0; font-size: 12px;">
@@ -472,18 +472,18 @@
                 {{ $totalPaidRevenue }}
             </div>
             <div class="fn-card-footer">
-                <span><i class="fa fa-check-circle" style="color: var(--bn-emerald); margin-right: 4px;"></i> {{ $paidCount }} Server Lunas</span>
+                <span><i class="fa fa-check-circle" style="color: var(--bn-emerald); margin-right: 4px;"></i> {{ $paidCount }} Paid Servers</span>
                 <button type="button" class="fn-mrr-setting-btn" data-toggle="modal" data-target="#customMrrModal">
                     <i class="fa fa-pencil"></i> {{ $isCustomMrr ? 'Custom MRR' : 'Set MRR' }}
                 </button>
             </div>
         </div>
 
-        <!-- 2. Total Tunggakan (Pending & Overdue) -->
+        <!-- 2. Total Outstanding (Pending & Overdue) -->
         <div class="fn-bento-card">
             <div class="fn-bento-topline" style="background: var(--bn-amber);"></div>
             <div class="fn-card-header">
-                <span class="fn-card-label">Total Tunggakan</span>
+                <span class="fn-card-label">Total Outstanding</span>
                 <div class="fn-card-icon-wrap" style="background: rgba(221, 151, 84, 0.15); color: #dd9754;">
                     <i class="fa fa-clock-o"></i>
                 </div>
@@ -496,11 +496,11 @@
             </div>
         </div>
 
-        <!-- 3. Overdue (Nunggak & Siap Suspend) -->
+        <!-- 3. Overdue (Actionable for Suspension) -->
         <div class="fn-bento-card">
             <div class="fn-bento-topline" style="background: var(--bn-crimson);"></div>
             <div class="fn-card-header">
-                <span class="fn-card-label">Nunggak (Overdue)</span>
+                <span class="fn-card-label">Overdue Servers</span>
                 <div class="fn-card-icon-wrap" style="background: rgba(201, 75, 75, 0.15); color: #f87171;">
                     <i class="fa fa-ban"></i>
                 </div>
@@ -509,7 +509,7 @@
                 {{ $overdueCount }} <span style="font-size: 13px; font-weight: 500; color: var(--bn-taupe);">Servers</span>
             </div>
             <div class="fn-card-footer">
-                <span><i class="fa fa-shield" style="color: var(--bn-crimson); margin-right: 4px;"></i> Siap Di-Suspend</span>
+                <span><i class="fa fa-shield" style="color: var(--bn-crimson); margin-right: 4px;"></i> Eligible for Suspension</span>
             </div>
         </div>
 
@@ -517,7 +517,7 @@
         <div class="fn-bento-card">
             <div class="fn-bento-topline" style="background: var(--bn-violet);"></div>
             <div class="fn-card-header">
-                <span class="fn-card-label">Split (Pecahan)</span>
+                <span class="fn-card-label">Split Instances</span>
                 <div class="fn-card-icon-wrap" style="background: rgba(168, 85, 247, 0.15); color: #c084fc;">
                     <i class="fa fa-sitemap"></i>
                 </div>
@@ -526,7 +526,7 @@
                 {{ $splitCount }} <span style="font-size: 13px; font-weight: 500; color: var(--bn-taupe);">Servers</span>
             </div>
             <div class="fn-card-footer">
-                <span><i class="fa fa-link" style="color: var(--bn-violet); margin-right: 4px;"></i> Ikut Server Induk</span>
+                <span><i class="fa fa-link" style="color: var(--bn-violet); margin-right: 4px;"></i> Linked to Parent Node</span>
             </div>
         </div>
 
@@ -534,7 +534,7 @@
         <div class="fn-bento-card">
             <div class="fn-bento-topline" style="background: var(--bn-khaki);"></div>
             <div class="fn-card-header">
-                <span class="fn-card-label">Total Server Panel</span>
+                <span class="fn-card-label">Total Panel Servers</span>
                 <div class="fn-card-icon-wrap" style="background: rgba(191, 168, 158, 0.15); color: #BFA89E;">
                     <i class="fa fa-server"></i>
                 </div>
@@ -543,7 +543,7 @@
                 {{ $totalServers }} <span style="font-size: 13px; font-weight: 500; color: var(--bn-taupe);">Servers</span>
             </div>
             <div class="fn-card-footer">
-                <span><i class="fa fa-cube" style="color: var(--bn-khaki); margin-right: 4px;"></i> {{ $freeCount }} Server Free/Demo</span>
+                <span><i class="fa fa-cube" style="color: var(--bn-khaki); margin-right: 4px;"></i> {{ $freeCount }} Free / Demo Tier</span>
             </div>
         </div>
     </div>
@@ -554,11 +554,11 @@
             <div style="display: flex; align-items: center; gap: 8px;">
                 <i class="fa fa-sliders" style="color: var(--bn-khaki); font-size: 13px;"></i>
                 <span style="font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 700; color: var(--bn-mint);">
-                    Panduan Logika Otomatisasi Status Pembayaran (7-Days Billing Rules)
+                    Automated Billing Logic Guide (7-Day Rules)
                 </span>
             </div>
             <div style="font-size: 12px; color: var(--bn-taupe);">
-                <span id="fn-rules-toggle-text">Tutup Panduan</span>
+                <span id="fn-rules-toggle-text">Hide Guide</span>
                 <i class="fa fa-chevron-up" id="fn-rules-icon" style="margin-left: 6px; font-size: 11px;"></i>
             </div>
         </div>
@@ -566,28 +566,28 @@
             <div class="fn-rule-item">
                 <div class="fn-rule-title" style="color: var(--bn-emerald);">
                     <span class="fn-dot" style="background: var(--bn-emerald);"></span>
-                    PAID (Lunas)
+                    PAID
                 </div>
                 <p class="fn-rule-desc">
-                    Server dalam masa aktif berlangganan (lebih dari 7 hari sebelum jatuh tempo atau baru diperpanjang).
+                    Active subscription period (more than 7 days remaining before expiration or recently renewed).
                 </p>
             </div>
             <div class="fn-rule-item">
                 <div class="fn-rule-title" style="color: var(--bn-amber);">
                     <span class="fn-dot" style="background: var(--bn-amber);"></span>
-                    UNPAID (Mendekati Tempo)
+                    UNPAID (Due Soon)
                 </div>
                 <p class="fn-rule-desc">
-                    Sisa masa sewa <strong>7 hari atau kurang</strong> menuju tanggal jatuh tempo (peringatan tagihan).
+                    7 days or less remaining before expiration date (renewal notice and invoice window).
                 </p>
             </div>
             <div class="fn-rule-item">
                 <div class="fn-rule-title" style="color: #f87171;">
                     <span class="fn-dot" style="background: var(--bn-crimson);"></span>
-                    OVERDUE (Nunggak)
+                    OVERDUE
                 </div>
                 <p class="fn-rule-desc">
-                    Sudah melewati batas tanggal jatuh tempo atau sedang dalam status <strong>SUSPENDED</strong>.
+                    Past expiration date without renewal, or currently in <strong>SUSPENDED</strong> status.
                 </p>
             </div>
             <div class="fn-rule-item">
@@ -596,7 +596,7 @@
                     SPLIT SERVER
                 </div>
                 <p class="fn-rule-desc">
-                    Server pecahan dari induk utama. Status tagihan dan perpanjangan mengikuti server induk.
+                    Sub-instance allocated from primary server. Billing cycle and lifecycle follow parent server.
                 </p>
             </div>
             <div class="fn-rule-item">
@@ -605,7 +605,7 @@
                     FREE / DEMO
                 </div>
                 <p class="fn-rule-desc">
-                    Server demo atau paket uji coba gratis dengan tarif nominal nol (0).
+                    Complimentary demo or test server instances with zero rate (0).
                 </p>
             </div>
         </div>
@@ -617,7 +617,7 @@
             <div class="fn-toolbar-left">
                 <h3 class="fn-toolbar-title">
                     <i class="fa fa-database" style="color: var(--bn-khaki);"></i>
-                    Daftar Keuangan Server Game
+                    Server Financial Ledger
                 </h3>
                 <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; background: rgba(191, 168, 158, 0.1); border: 1px solid rgba(191, 168, 158, 0.18); color: var(--bn-khaki); padding: 2px 8px; border-radius: 9999px;">
                     {{ count($servers) }} total
@@ -629,7 +629,7 @@
                 <form id="currency-form" action="{{ route('admin.finance.currency') }}" method="POST" style="display: inline-flex; align-items: center; gap: 6px; margin: 0;">
                     @csrf
                     <label for="currency-select" style="font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 700; color: var(--bn-taupe); text-transform: uppercase; margin: 0;">
-                        Mata Uang:
+                        Currency:
                     </label>
                     <select id="currency-select" name="currency" class="fn-control-select" onchange="document.getElementById('currency-form').submit();" style="font-weight: 600; width: 150px;">
                         <option value="IDR" {{ $currency === 'IDR' ? 'selected' : '' }}>IDR &middot; Rp (Indonesia)</option>
@@ -645,7 +645,7 @@
 
                 <!-- Node Filter Dropdown -->
                 <select id="node-filter" class="fn-control-select" style="width: 170px;">
-                    <option value="">Semua Node (All Nodes)</option>
+                    <option value="">All Nodes</option>
                     @foreach($nodes as $node)
                         <option value="{{ strtolower($node->name) }}">Node: {{ $node->name }}</option>
                     @endforeach
@@ -654,7 +654,7 @@
                 <!-- Search Input -->
                 <div class="fn-search-wrapper">
                     <i class="fa fa-search fn-search-icon"></i>
-                    <input type="text" id="finance-search" class="fn-search-input" placeholder="Cari server, user, email, UUID...">
+                    <input type="text" id="finance-search" class="fn-search-input" placeholder="Filter server, owner, UUID...">
                 </div>
             </div>
         </div>
@@ -663,12 +663,12 @@
             <table class="fn-table" id="finance-table">
                 <thead>
                     <tr>
-                        <th style="width: 27%;">Server &amp; Pemilik</th>
+                        <th style="width: 27%;">Server &amp; Owner</th>
                         <th style="width: 14%;">Node</th>
-                        <th style="width: 17%;">Harga Bulanan</th>
-                        <th style="width: 17%;">Due Date (Jatuh Tempo)</th>
-                        <th style="width: 13%;">Status Bayar</th>
-                        <th style="width: 12%; text-align: right;">Aksi Management</th>
+                        <th style="width: 17%;">Monthly Rate</th>
+                        <th style="width: 17%;">Due Date</th>
+                        <th style="width: 13%;">Payment Status</th>
+                        <th style="width: 12%; text-align: right;">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -703,7 +703,7 @@
                             </td>
 
                             <td>
-                                <span class="fn-node-pill" data-node-name="{{ strtolower($server->node->name) }}" title="Klik untuk filter Node {{ $server->node->name }}">
+                                <span class="fn-node-pill" data-node-name="{{ strtolower($server->node->name) }}" title="Filter by Node {{ $server->node->name }}">
                                     <i class="fa fa-server" style="color: var(--bn-khaki); font-size: 10px;"></i>
                                     {{ $server->node->name }}
                                 </span>
@@ -712,9 +712,9 @@
                             <td>
                                 @if($server->is_split_server)
                                     <div style="font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 13px; color: #c084fc;">
-                                        <i class="fa fa-link"></i> Pecahan Induk
+                                        <i class="fa fa-link"></i> Split Sub-Instance
                                     </div>
-                                    <small style="font-size: 11px; color: var(--bn-taupe);">Ikut tagihan server induk</small>
+                                    <small style="font-size: 11px; color: var(--bn-taupe);">Billed to parent server</small>
                                 @elseif($price == 0)
                                     <div style="font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 14px; color: var(--bn-slate);">
                                         {{ $formattedPrice }}
@@ -731,7 +731,7 @@
                             <td>
                                 @if($server->is_split_server)
                                     <div style="font-size: 12.5px; color: #c084fc; font-weight: 600;">
-                                        <i class="fa fa-link"></i> Ikut Induk
+                                        <i class="fa fa-link"></i> Follows Parent
                                     </div>
                                 @else
                                     <div style="font-family: 'JetBrains Mono', monospace; font-size: 13.5px; font-weight: 600; color: var(--bn-mint);">
@@ -749,7 +749,7 @@
                             <td>
                                 @if($status === 'paid')
                                     <span class="fn-badge fn-badge-paid">
-                                        <i class="fa fa-check"></i> PAID (Lunas)
+                                        <i class="fa fa-check"></i> PAID
                                     </span>
                                 @elseif($status === 'unpaid')
                                     <span class="fn-badge fn-badge-unpaid">
@@ -775,7 +775,7 @@
                                     @if($status !== 'paid' && !$server->is_split_server)
                                         <form action="{{ route('admin.finance.mark_paid', $server->id) }}" method="POST" style="margin: 0; display: inline;">
                                             @csrf
-                                            <button type="submit" class="fn-btn-action fn-btn-paid" title="Tandai Lunas & Perpanjang +1 Bulan" onclick="return confirm('Tandai lunas server {{ $server->name }} dan perpanjang sewa +1 bulan?')">
+                                            <button type="submit" class="fn-btn-action fn-btn-paid" title="Mark as Paid & Extend +1 Month" onclick="return confirm('Mark server {{ $server->name }} as paid and extend lease by +1 month?')">
                                                 <i class="fa fa-check"></i> Paid
                                             </button>
                                         </form>
@@ -791,13 +791,13 @@
                                     @else
                                         <form action="{{ route('admin.finance.suspend', $server->id) }}" method="POST" style="margin: 0; display: inline;">
                                             @csrf
-                                            <button type="submit" class="fn-btn-action fn-btn-suspend" title="Suspend Server" onclick="return confirm('Apakah Anda yakin ingin men-suspend server {{ $server->name }}?')">
+                                            <button type="submit" class="fn-btn-action fn-btn-suspend" title="Suspend Server" onclick="return confirm('Are you sure you want to suspend server {{ $server->name }}?')">
                                                 <i class="fa fa-pause"></i> Suspend
                                             </button>
                                         </form>
                                     @endif
 
-                                    <a href="{{ route('admin.servers.view.details', $server->id) }}" class="fn-btn-action fn-btn-detail" title="Detail Konfigurasi Server">
+                                    <a href="{{ route('admin.servers.view.details', $server->id) }}" class="fn-btn-action fn-btn-detail" title="Server Details">
                                         <i class="fa fa-cog"></i>
                                     </a>
                                 </div>
@@ -820,21 +820,21 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                         <h4 class="modal-title" style="font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 700;">
-                            <i class="fa fa-pencil" style="color: #BFA89E;"></i> Konfigurasi Custom MRR
+                            <i class="fa fa-pencil" style="color: #BFA89E;"></i> Custom MRR Configuration
                         </h4>
                     </div>
                     <div class="modal-body" style="padding: 16px 18px;">
                         <p style="font-size: 12px; color: #8B786D; margin-bottom: 12px;">
-                            Masukkan nominal target atau custom Monthly Revenue. Kosongkan untuk kembali ke perhitungan otomatis dari total server aktif.
+                            Set a custom Monthly Recurring Revenue target. Leave empty to automatically calculate from active paid servers.
                         </p>
                         <div class="form-group" style="margin-bottom: 0;">
-                            <label style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #BFA89E;">Nominal Target MRR ({{ $currency }}):</label>
-                            <input type="text" name="custom_mrr" class="fn-search-input" style="width: 100%;" placeholder="Contoh: 2500000" value="{{ $isCustomMrr ? preg_replace('/[^0-9]/', '', $totalPaidRevenue) : '' }}">
+                            <label style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #BFA89E;">Target MRR ({{ $currency }}):</label>
+                            <input type="text" name="custom_mrr" class="fn-search-input" style="width: 100%;" placeholder="e.g. 2500000" value="{{ $isCustomMrr ? preg_replace('/[^0-9]/', '', $totalPaidRevenue) : '' }}">
                         </div>
                     </div>
                     <div class="modal-footer" style="border-top: 1px solid rgba(191, 168, 158, 0.15); padding: 12px 18px; display: flex; justify-content: flex-end; gap: 8px;">
-                        <button type="button" class="fn-btn-action fn-btn-detail" data-dismiss="modal">Batal</button>
-                        <button type="submit" class="fn-btn-action fn-btn-paid" style="padding: 6px 14px;">Simpan MRR</button>
+                        <button type="button" class="fn-btn-action fn-btn-detail" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="fn-btn-action fn-btn-paid" style="padding: 6px 14px;">Save MRR</button>
                     </div>
                 </form>
             </div>
@@ -883,12 +883,12 @@
                     body.slideUp(180);
                     header.removeClass('open');
                     icon.removeClass('fa-chevron-up').addClass('fa-chevron-down');
-                    text.text('Buka Panduan');
+                    text.text('Show Guide');
                 } else {
                     body.slideDown(180);
                     header.addClass('open');
                     icon.removeClass('fa-chevron-down').addClass('fa-chevron-up');
-                    text.text('Tutup Panduan');
+                    text.text('Hide Guide');
                 }
             });
         });
