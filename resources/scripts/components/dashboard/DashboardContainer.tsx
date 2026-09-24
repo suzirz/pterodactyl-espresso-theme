@@ -46,8 +46,12 @@ const MainGrid = styled.div`
     grid-template-columns: 1fr;
     gap: 24px;
 
-    @media (min-width: 1200px) {
-        grid-template-columns: minmax(0, 1fr) 340px;
+    @media (min-width: 1280px) {
+        grid-template-columns: minmax(0, 1fr) 310px;
+    }
+
+    @media (min-width: 1440px) {
+        grid-template-columns: minmax(0, 1fr) 330px;
     }
 `;
 
@@ -55,12 +59,15 @@ const LeftColumn = styled.div`
     display: flex;
     flex-direction: column;
     min-width: 0;
+    width: 100%;
+    overflow: hidden;
 `;
 
 const RightColumn = styled.div`
     display: flex;
     flex-direction: column;
     gap: 20px;
+    min-width: 0;
 `;
 
 const HeaderBar = styled.div`

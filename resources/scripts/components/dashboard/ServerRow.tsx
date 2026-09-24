@@ -160,12 +160,15 @@ const RowCard = styled(Link)`
     background-color: #25211e;
     border: 1px solid rgba(191, 168, 158, 0.15);
     border-radius: 12px;
-    padding: 16px 20px;
+    padding: 14px 18px;
     margin-bottom: 12px;
     text-decoration: none;
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
     position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
 
     &:hover {
         border-color: rgba(191, 168, 158, 0.35);
@@ -188,19 +191,27 @@ const RowCard = styled(Link)`
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
+        gap: 12px;
     }
 `;
 
 const LeftSection = styled.div`
     display: flex;
     align-items: center;
-    gap: 16px;
-    min-width: 280px;
+    gap: 12px;
+    min-width: 0;
+    flex: 1 1 200px;
+    max-width: 270px;
+
+    @media (min-width: 1440px) {
+        max-width: 320px;
+        gap: 14px;
+    }
 `;
 
 const ServerAvatar = styled.div<{ $color: string; $bg: string; $border: string; $glow: string }>`
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
     border-radius: 10px;
     background-color: ${({ $bg }) => $bg};
     border: 1px solid ${({ $border }) => $border};
@@ -208,72 +219,84 @@ const ServerAvatar = styled.div<{ $color: string; $bg: string; $border: string; 
     align-items: center;
     justify-content: center;
     color: ${({ $color }) => $color};
-    font-size: 18px;
+    font-size: 16px;
     flex-shrink: 0;
     transition: all 0.2s ease;
-    box-shadow: 0 0 14px ${({ $glow }) => $glow};
+    box-shadow: 0 0 12px ${({ $glow }) => $glow};
 `;
 
 const ServerInfo = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 4px;
+    min-width: 0;
+    overflow: hidden;
 `;
 
 const ServerName = styled.h4`
     font-family: 'Outfit', sans-serif;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 600;
     color: #EBF5EE;
     margin: 0;
     line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 `;
 
 const MetaRow = styled.div`
     display: flex;
     align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
+    gap: 6px;
+    flex-wrap: nowrap;
+    overflow: hidden;
 `;
 
 const GameTypeBadge = styled.span<{ $color: string; $bg: string; $border: string }>`
     font-family: 'Outfit', sans-serif;
-    font-size: 11px;
+    font-size: 10.5px;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    padding: 2px 8px;
-    border-radius: 6px;
+    letter-spacing: 0.4px;
+    padding: 2px 7px;
+    border-radius: 5px;
     background-color: ${({ $bg }) => $bg};
     border: 1px solid ${({ $border }) => $border};
     color: ${({ $color }) => $color};
     display: inline-flex;
     align-items: center;
-    gap: 5px;
+    gap: 4px;
+    flex-shrink: 0;
 `;
 
 const NodeBadge = styled.span`
     font-family: 'Outfit', sans-serif;
-    font-size: 11px;
+    font-size: 10.5px;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    padding: 2px 8px;
-    border-radius: 6px;
+    letter-spacing: 0.4px;
+    padding: 2px 7px;
+    border-radius: 5px;
     background-color: #1c1917;
     border: 1px solid rgba(191, 168, 158, 0.25);
     color: #BFA89E;
+    flex-shrink: 0;
 `;
 
 const ConnectionString = styled.span`
     font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
+    font-size: 11px;
     color: #8B786D;
     display: inline-flex;
     align-items: center;
     gap: 4px;
     cursor: pointer;
     transition: color 0.15s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
 
     &:hover {
         color: #EBF5EE;
@@ -283,16 +306,23 @@ const ConnectionString = styled.span`
 const MiddleSection = styled.div`
     display: none;
     align-items: center;
-    gap: 28px;
+    gap: 14px;
     margin: 12px 0;
+    flex-shrink: 1;
+    min-width: 0;
 
     @media (min-width: 768px) {
         display: flex;
     }
     @media (min-width: 1024px) {
-        margin: 0 20px;
+        margin: 0 10px;
         flex: 1;
         justify-content: center;
+        gap: 16px;
+    }
+    @media (min-width: 1440px) {
+        margin: 0 20px;
+        gap: 24px;
     }
 `;
 
@@ -300,49 +330,56 @@ const StatItem = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-width: 80px;
+    min-width: 0;
+    flex-shrink: 0;
 `;
 
 const StatHeader = styled.div<{ $alarm?: boolean }>`
     display: flex;
     align-items: center;
-    gap: 6px;
-    font-size: 12px;
+    gap: 5px;
+    font-size: 11px;
     color: ${(props) => (props.$alarm ? '#ef4444' : '#8B786D')};
     margin-bottom: 2px;
 `;
 
 const StatValue = styled.span<{ $alarm?: boolean }>`
     font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 600;
     color: ${(props) => (props.$alarm ? '#ef4444' : '#EBF5EE')};
+    white-space: nowrap;
 `;
 
 const StatSub = styled.span`
-    font-size: 11px;
+    font-size: 10.5px;
     color: #8B786D;
+    white-space: nowrap;
 `;
 
 const RightSection = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
+    gap: 10px;
     margin-top: 10px;
 
     @media (min-width: 1024px) {
         margin-top: 0;
         flex-shrink: 0;
+        gap: 10px;
+    }
+    @media (min-width: 1440px) {
+        gap: 14px;
     }
 `;
 
 const StatusPill = styled.div<{ $status?: ServerPowerState }>`
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 5px 12px;
-    border-radius: 8px;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 7px;
     background-color: #1c1917;
     border: 1px solid
         ${({ $status }) =>
@@ -354,18 +391,18 @@ const StatusPill = styled.div<{ $status?: ServerPowerState }>`
 `;
 
 const StatusDot = styled.span<{ $status?: ServerPowerState }>`
-    width: 8px;
-    height: 8px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
     background-color: ${({ $status }) =>
         $status === 'running' ? '#22c55e' : $status === 'starting' ? '#eab308' : '#8B786D'};
     box-shadow: ${({ $status }) =>
-        $status === 'running' ? '0 0 8px #22c55e' : $status === 'starting' ? '0 0 8px #eab308' : 'none'};
+        $status === 'running' ? '0 0 6px #22c55e' : $status === 'starting' ? '0 0 6px #eab308' : 'none'};
 `;
 
 const StatusText = styled.span<{ $status?: ServerPowerState }>`
     font-family: 'Outfit', sans-serif;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -375,17 +412,18 @@ const StatusText = styled.span<{ $status?: ServerPowerState }>`
 
 const ManageButton = styled.span`
     font-family: 'Outfit', sans-serif;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
-    padding: 7px 16px;
-    border-radius: 8px;
+    padding: 6px 14px;
+    border-radius: 7px;
     background-color: rgba(191, 168, 158, 0.1);
     color: #BFA89E;
     border: 1px solid rgba(191, 168, 158, 0.25);
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
     transition: all 0.2s ease;
+    white-space: nowrap;
 `;
 
 type Timer = ReturnType<typeof setInterval>;
