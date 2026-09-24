@@ -466,8 +466,13 @@ export default ({ server, className }: { server: Server; className?: string }) =
     const memoryLimit = server.limits.memory ? bytesToString(mbToBytes(server.limits.memory)) : 'Unlimited';
     const cpuLimit = server.limits.cpu ? `${server.limits.cpu}%` : 'Unlimited';
 
-    const defaultAlloc = server.allocations?.find((alloc) => alloc.isDefault);
-    const connString = defaultAlloc ? `${defaultAlloc.alias || ip(defaultAlloc.ip)}:${defaultAlloc.port}` : '';
+    const defaultAlloc = server.allocations?.find((alloc) => alloc.isDefault) || server.allocations?.[0];
+    const isDemo = (window as any).PterodactylUser?.username === 'demo' || (window as any).PterodactylUser?.email === 'demo@bytenodes.id';
+    const rawHost = (defaultAlloc?.alias && defaultAlloc.alias !== '0.0.0.0')
+        ? defaultAlloc.alias
+        : (defaultAlloc?.ip && defaultAlloc.ip !== '0.0.0.0' ? ip(defaultAlloc.ip) : (server as any)?.sftpDetails?.ip);
+    const allocHost = isDemo ? '0.0.0.0' : (rawHost || '0.0.0.0');
+    const connString = defaultAlloc ? `${allocHost}:${defaultAlloc.port}` : '';
 
     const handleCopy = (e: React.MouseEvent) => {
         e.preventDefault();

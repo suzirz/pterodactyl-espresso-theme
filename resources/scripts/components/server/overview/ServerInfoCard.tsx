@@ -173,7 +173,10 @@ const ServerInfoCard: React.FC = () => {
     const node = server.node;
     const allocation = server.allocations.find((a: any) => a.isDefault);
     const isDemo = (window as any).PterodactylUser?.username === 'demo' || (window as any).PterodactylUser?.email === 'demo@bytenodes.id';
-    const allocHost = (isDemo || allocation?.ip === '0.0.0.0') ? '0.0.0.0' : (allocation?.alias || allocation?.ip);
+    const rawHost = (allocation?.alias && allocation.alias !== '0.0.0.0')
+        ? allocation.alias
+        : (allocation?.ip && allocation.ip !== '0.0.0.0' ? allocation.ip : server?.sftpDetails?.ip);
+    const allocHost = isDemo ? '0.0.0.0' : (rawHost || '0.0.0.0');
     const hostname = allocation
         ? `${allocHost}:${allocation.port}`
         : '—';

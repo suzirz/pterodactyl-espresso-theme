@@ -195,7 +195,10 @@ export default () => {
 
     const allocation = server.allocations.find((alloc) => alloc.isDefault) || server.allocations[0];
     const isDemo = (window as any).PterodactylUser?.username === 'demo' || (window as any).PterodactylUser?.email === 'demo@bytenodes.id';
-    const allocHost = (isDemo || allocation?.ip === '0.0.0.0') ? '0.0.0.0' : (allocation?.alias || allocation?.ip);
+    const rawHost = (allocation?.alias && allocation.alias !== '0.0.0.0')
+        ? allocation.alias
+        : (allocation?.ip && allocation.ip !== '0.0.0.0' ? allocation.ip : server?.sftpDetails?.ip);
+    const allocHost = isDemo ? '0.0.0.0' : (rawHost || '0.0.0.0');
     const fullAddress = allocation ? `${allocHost}:${allocation.port}` : 'Unavailable';
 
     // Live continuous second ticker

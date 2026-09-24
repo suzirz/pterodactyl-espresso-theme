@@ -561,7 +561,10 @@ export default ({ mobileOpen = false, onCloseMobile }: SidebarProps) => {
 
     const defaultAlloc = server?.allocations?.find((alloc) => alloc.isDefault);
     const isDemo = (window as any).PterodactylUser?.username === 'demo' || (window as any).PterodactylUser?.email === 'demo@bytenodes.id';
-    const allocHost = (isDemo || defaultAlloc?.ip === '0.0.0.0') ? '0.0.0.0' : (defaultAlloc?.alias || ip(defaultAlloc?.ip || ''));
+    const rawHost = (defaultAlloc?.alias && defaultAlloc.alias !== '0.0.0.0')
+        ? defaultAlloc.alias
+        : (defaultAlloc?.ip && defaultAlloc.ip !== '0.0.0.0' ? ip(defaultAlloc.ip) : (server as any)?.sftpDetails?.ip);
+    const allocHost = isDemo ? '0.0.0.0' : (rawHost || '0.0.0.0');
     const connString = defaultAlloc ? `${allocHost}:${defaultAlloc.port}` : '';
 
     const handleCopy = (e: React.MouseEvent) => {

@@ -98,7 +98,10 @@ export default function WorldViewerContainer() {
     const defaultAlloc = server?.allocations?.find((alloc) => alloc.isDefault);
     const isDemo = (window as any).PterodactylUser?.username === 'demo' || (window as any).PterodactylUser?.email === 'demo@bytenodes.id';
     const isDemoServer = server?.id === 171 || server?.uuid === 'c06dfb84-0b2a-4233-9bd4-83ad49d3ac68';
-    const hostIp = (isDemo || isDemoServer || defaultAlloc?.ip === '0.0.0.0') ? '0.0.0.0' : (defaultAlloc?.alias || (defaultAlloc ? defaultAlloc.ip : '127.0.0.1'));
+    const rawHost = (defaultAlloc?.alias && defaultAlloc.alias !== '0.0.0.0')
+        ? defaultAlloc.alias
+        : (defaultAlloc?.ip && defaultAlloc.ip !== '0.0.0.0' ? defaultAlloc.ip : (server as any)?.sftpDetails?.ip);
+    const hostIp = (isDemo || isDemoServer) ? '0.0.0.0' : (rawHost || '127.0.0.1');
 
     const [mapUrl, setMapUrl] = useState(`http://${hostIp}:8123`);
     const [currentUrl, setCurrentUrl] = useState(`http://${hostIp}:8123`);
